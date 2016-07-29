@@ -1159,7 +1159,7 @@ namespace epubReader4._0_Dino
                     if(!strokeLines[i].GetEreased())
                     {
                         strokeLines[i].SetEreased(true);
-                        strokeLines[i].SetEreasedTime(learningLogs.Count);
+                        strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
                         inkCanvas1.Strokes.Clear();
                         drawAll();
                         break;
@@ -1187,6 +1187,7 @@ namespace epubReader4._0_Dino
                 {
                     //ストローク一つひとつに、erase = trueをセット
                     strokeLines[i].SetEreased(true);
+                    strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
                 }
 
                 //動作ログに記録。全消去の時はidの欄をallとする
