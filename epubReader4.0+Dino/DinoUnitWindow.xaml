@@ -1,0 +1,31 @@
+﻿<Window x:Name="Unit1" x:Class="epubReader4._0_Dino.DinoUnitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UnitWindow" Height="400" Width="500" WindowStyle="None" WindowState="Maximized">
+    <Grid x:Name="grid1">
+        <Grid.Background>
+            <ImageBrush ImageSource="notebasic.png"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="newUnitButton" Content="+" HorizontalAlignment="Center" Margin="35,0,0,0" VerticalAlignment="Center" Width="65" Height="50" FontSize="36" RenderTransformOrigin="0.526,0.425" Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Click="newUnitButton_Click"/>
+        <Button Content="おわる" Height="40" Margin="0,0,11,10" VerticalAlignment="Center" Click="Button_Click_1" Grid.Column="6" Grid.Row="6" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" HorizontalContentAlignment="Center"/>
+        <Button Content="もどる" HorizontalAlignment="Left" Margin="16,0,0,0" Grid.Row="6" VerticalAlignment="Top" Width="84" Height="40" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Click="Button_Click_2"/>
+
+    </Grid>
+</Window>
