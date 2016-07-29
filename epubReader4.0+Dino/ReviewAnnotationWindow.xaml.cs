@@ -143,7 +143,7 @@ namespace epubReader4._0_Dino
         //指定したidまでで、消されていないストロークを再描画
         private void drawAll(int limId)
         {
-            for (int i = 0; i <= limId; i++)
+            for (int i = 0; i < limId; i++)
             {
                 StrokeLine sl = strokeLines[i];
 
