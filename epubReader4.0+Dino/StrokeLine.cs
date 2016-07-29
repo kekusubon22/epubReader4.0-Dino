@@ -18,6 +18,7 @@ namespace epubReader4._0_Dino
         public bool downNow;
         public bool inSpace;
         public bool erased;
+        public int erasedTime;
 
         //Getメソッドの定義
         public int GetId()
@@ -55,6 +56,11 @@ namespace epubReader4._0_Dino
             return erased;
         }
 
+        public int GetEreasedTime()
+        {
+            return erasedTime;
+        }
+
         //Setメソッドの定義
         public void SetId(int id)
         {
@@ -89,6 +95,11 @@ namespace epubReader4._0_Dino
         public void SetEreased(bool erased)
         {
             this.erased = erased;
+        }
+
+        public void SetEreasedTime(int erasedTime)
+        {
+            this.erasedTime = erasedTime;
         }
     }
 }
