@@ -825,6 +825,7 @@ namespace epubReader4._0_Dino
                 strokeLine.SetWidth(inkWidth);
                 strokeLine.SetDownNow(false);
                 strokeLine.SetInSpace(false);
+                strokeLine.SetEreasedTime(-1);
                 strokeLines.Add(strokeLine);
 
                 //動作ログに記録
@@ -1158,6 +1159,7 @@ namespace epubReader4._0_Dino
                     if(!strokeLines[i].GetEreased())
                     {
                         strokeLines[i].SetEreased(true);
+                        strokeLines[i].SetEreasedTime(learningLogs.Count);
                         inkCanvas1.Strokes.Clear();
                         drawAll();
                         break;

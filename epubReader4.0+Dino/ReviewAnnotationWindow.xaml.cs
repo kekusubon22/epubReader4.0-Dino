@@ -124,7 +124,7 @@ namespace epubReader4._0_Dino
 
                     //いったん全部消し、当該idまで、再描画する
                     inkCanvas1.Strokes.Clear();
-                    drawAll(x+1);
+                    drawAll(x);
                 }
                 counter++;
             }
@@ -147,8 +147,8 @@ namespace epubReader4._0_Dino
             {
                 StrokeLine sl = strokeLines[i];
 
-                //消去済みでなく、隠れたスペースに書いていないストローク以外を再描画
-                if (!sl.GetInSpace() && !sl.GetEreased())
+                //指定されたときまでに消去済みでなく、隠れたスペースに書いていないストローク以外を再描画
+                if (!sl.GetInSpace() && (sl.GetEreasedTime() > counter || !sl.GetEreased() ))
                 {
                     //線の色、幅を取得
                     DrawingAttributes DA = new DrawingAttributes();
