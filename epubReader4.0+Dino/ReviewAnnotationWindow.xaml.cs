@@ -62,6 +62,7 @@ namespace epubReader4._0_Dino
         {
             //try
             //{
+
                 //一次元目がallなら全消去なのですべて消去する
                 if (learningLogs[counter].GetStrokeId().Equals("all"))
                 {
