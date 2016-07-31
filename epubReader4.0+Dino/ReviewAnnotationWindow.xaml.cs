@@ -60,8 +60,8 @@ namespace epubReader4._0_Dino
         //動作を進める
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 //一次元目がallなら全消去なのですべて消去する
                 if (learningLogs[counter].GetStrokeId().Equals("all"))
                 {
@@ -127,17 +127,62 @@ namespace epubReader4._0_Dino
                     drawAll(x);
                 }
                 counter++;
-            }
-            catch
-            {
-                MessageBox.Show("最後の動作です。");
-            }
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("最後の動作です。");
+            //}
         }
 
         //動作を戻る
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
+            counter--;
+            //try
+            //{
 
+                MessageBox.Show("learningLogs[" + counter + "] = (" + learningLogs[counter].GetStrokeId() + ", " + learningLogs[counter].GetBehavior() + ")");
+                
+                //一次元目がallなら全消去なのですべて再描画する
+                if (learningLogs[counter].GetStrokeId().Equals("all"))
+                {
+                    //ターゲットとなるストロークのidを取ってくる
+                    //対象の動作オブジェクトには（"all", "erase"）が入っているので、一つ前の動作のストロークidを使う
+                    int x = Int16.Parse(learningLogs[counter-1].GetStrokeId());
+
+                    drawAll(x);
+                }
+
+                //二次元目がdrawのとき
+                else if (learningLogs[counter].GetBehavior().Equals("draw"))
+                {
+                    //ターゲットとなるストロークのidを取ってくる
+                    int x = Int16.Parse(learningLogs[counter].GetStrokeId());
+
+                    //いったん全部消し、当該idまで、再描画する
+                    inkCanvas1.Strokes.Clear();
+                    counter++;
+                    drawAll(x);
+                    counter--;
+                }
+
+                //二次元目がeraseのとき
+                else if (learningLogs[counter].GetBehavior().Equals("erase"))
+                {
+                    //ターゲットとなるストロークのidを取ってくる
+                    int x = Int16.Parse(learningLogs[counter].GetStrokeId());
+
+                    //いったん全部消し、当該idまで、再描画する
+                    inkCanvas1.Strokes.Clear();
+                    counter++;
+                    drawAll(x);
+                    counter--;
+                }
+            //}
+            //catch
+            //{
+                //MessageBox.Show("最初の動作です。");
+            //}
         }
 
         //指定したidまでで、消されていないストロークを再描画
