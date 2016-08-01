@@ -1233,7 +1233,7 @@ namespace epubReader4._0_Dino
                 int i;
                 for(i = strokeLines.Count - 1; i >= 0; i--)
                 {
-                    if(!strokeLines[i].GetEreased() && strokeLines[i].GetEreasedTime() != -1)
+                    if( !strokeLines[i].GetEreased() )
                     {
                         strokeLines[i].SetEreased(true);
                         strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
@@ -1251,7 +1251,7 @@ namespace epubReader4._0_Dino
             }
             catch
             {
-
+                MessageBox.Show("ERROR! 一つ戻るの処理過程でエラーが起きました。");
             }
         }
 
@@ -1264,7 +1264,12 @@ namespace epubReader4._0_Dino
                 {
                     //ストローク一つひとつに、erase = trueをセット
                     strokeLines[i].SetEreased(true);
-                    strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
+
+                    //本処理で初めてその線が消える場合のみ、erasedTimeをセット
+                    if (strokeLines[i].GetEreasedTime() == -1)
+                    {
+                        strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
+                    }
                 }
 
                 //動作ログに記録。全消去の時はidの欄をallとする
