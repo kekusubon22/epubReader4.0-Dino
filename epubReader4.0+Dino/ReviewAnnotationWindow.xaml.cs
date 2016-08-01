@@ -60,8 +60,9 @@ namespace epubReader4._0_Dino
         //動作を進める
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
+            try
+            {
+
                 //一次元目がallなら全消去なのですべて消去する
                 if (learningLogs[counter].GetStrokeId().Equals("all"))
                 {
@@ -127,28 +128,28 @@ namespace epubReader4._0_Dino
                     drawAll(x);
                 }
                 counter++;
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("最後の動作です。");
-            //}
+            }
+            catch
+            {
+                MessageBox.Show("最後の動作です。");
+            }
         }
 
         //動作を戻る
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             counter--;
-            //try
-            //{
-
-                MessageBox.Show("learningLogs[" + counter + "] = (" + learningLogs[counter].GetStrokeId() + ", " + learningLogs[counter].GetBehavior() + ")");
+            try
+            {
+                //MessageBox.Show("counter = " + counter);
+                //MessageBox.Show("learningLogs[" + counter + "] = (" + learningLogs[counter].GetStrokeId() + ", " + learningLogs[counter].GetBehavior() + ")");
                 
                 //一次元目がallなら全消去なのですべて再描画する
                 if (learningLogs[counter].GetStrokeId().Equals("all"))
                 {
                     //ターゲットとなるストロークのidを取ってくる
                     //対象の動作オブジェクトには（"all", "erase"）が入っているので、一つ前の動作のストロークidを使う
-                    int x = Int16.Parse(learningLogs[counter-1].GetStrokeId());
+                    int x = Int16.Parse(learningLogs[counter+1].GetStrokeId());
 
                     drawAll(x);
                 }
@@ -172,17 +173,43 @@ namespace epubReader4._0_Dino
                     //ターゲットとなるストロークのidを取ってくる
                     int x = Int16.Parse(learningLogs[counter].GetStrokeId());
 
-                    //いったん全部消し、当該idまで、再描画する
-                    inkCanvas1.Strokes.Clear();
-                    counter++;
-                    drawAll(x);
-                    counter--;
+                    //Redraw stroke[x]
+                    //strokeLiesの中から該当するidのストロークを探す
+                    StrokeLine sl;
+                    for (int i = 0; i < strokeLines.Count; i++)
+                    {
+                        if (strokeLines[i].GetId() == x)
+                        {
+                            sl = strokeLines[x];
+
+                            //（とりあえず）隠れたスペースに書いてなければを再描画
+                            if (!sl.GetInSpace())
+                            {
+                                //線の色、幅を取得
+                                DrawingAttributes DA = new DrawingAttributes();
+                                DA.Color = sl.GetColor();
+                                DA.Width = sl.GetWidth();
+                                DA.Height = sl.GetWidth();
+                                inkCanvas1.DefaultDrawingAttributes = DA;
+
+                                //点の情報を集める
+                                StylusPointCollection spc = new StylusPointCollection();
+                                for (int j = 0; j < sl.GetPoints().Count; j++)
+                                {
+                                    spc.Add(new StylusPoint(sl.GetPoints()[j].X, sl.GetPoints()[j].Y));
+                                }
+                                Stroke stroke = new Stroke(spc, DA);
+                                inkCanvas1.Strokes.Add(stroke);
+                            }
+                        }
+                    }
+
                 }
-            //}
-            //catch
-            //{
-                //MessageBox.Show("最初の動作です。");
-            //}
+            }
+            catch
+            {
+                MessageBox.Show("最初の動作です。");
+            }
         }
 
         //指定したidまでで、消されていないストロークを再描画
