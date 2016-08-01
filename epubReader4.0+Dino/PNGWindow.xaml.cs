@@ -306,6 +306,7 @@ namespace epubReader4._0_Dino
                 return;
             }
 
+            SaveAnnotateRecord();
             currentPageNum--;
 
             //読み込ませる
@@ -325,19 +326,24 @@ namespace epubReader4._0_Dino
             resizeRate = ww / imageWidth;
             wh = imageHeight * resizeRate;
 
+            //描画情報をクリア
+            strokeLines.Clear();
+            learningLogs.Clear();
+            inkCanvas1.Strokes.Clear();
+            strokeId = 0;
+            drawFlag = false;
 
             //前に描画した情報があれば読み込む
             try
             {
                 RoadAnnotateRecord();
                 drawAll();
+                strokeId = strokeLines.Count;
             }
             catch
             {
                 //MessageBox.Show("再読み込み失敗");
             }
-
-            drawFlag = false;
         }
 
         //すすむボタン
@@ -345,6 +351,7 @@ namespace epubReader4._0_Dino
         {
             try
             {
+                SaveAnnotateRecord();
                 currentPageNum++;
 
                 //読み込ませる
@@ -364,17 +371,25 @@ namespace epubReader4._0_Dino
                 resizeRate = ww / imageWidth;
                 wh = imageHeight * resizeRate;
 
+                //描画情報をクリア
+                strokeLines.Clear();
+                learningLogs.Clear();
+                inkCanvas1.Strokes.Clear();
+                strokeId = 0;
+                drawFlag = false;
+
                 //前に描画した情報があれば読み込む
                 try
                 {
                     RoadAnnotateRecord();
                     drawAll();
+                    strokeId = strokeLines.Count;
                 }
                 catch
                 {
                     //MessageBox.Show("再読み込み失敗");
                 }
-                drawFlag = false;
+
             }
 
             catch
