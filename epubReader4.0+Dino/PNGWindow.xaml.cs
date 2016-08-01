@@ -1156,7 +1156,7 @@ namespace epubReader4._0_Dino
                 int i;
                 for(i = strokeLines.Count - 1; i >= 0; i--)
                 {
-                    if(!strokeLines[i].GetEreased())
+                    if(!strokeLines[i].GetEreased() && strokeLines[i].GetEreasedTime() != -1)
                     {
                         strokeLines[i].SetEreased(true);
                         strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
