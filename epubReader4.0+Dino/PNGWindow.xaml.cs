@@ -77,6 +77,7 @@ namespace epubReader4._0_Dino
         bool canvasDisplay = true;
         int inkWidth;
         int strokeId = 0;
+        bool drawFlag = false;
 
         //マウスイベントに必要な変数
         System.Windows.Point startP = new System.Windows.Point();
@@ -291,7 +292,7 @@ namespace epubReader4._0_Dino
             }
             catch
             {
-                MessageBox.Show("再読み込み失敗");
+                //MessageBox.Show("再読み込み失敗");
             }
 
         }
@@ -299,13 +300,87 @@ namespace epubReader4._0_Dino
         //もどるボタン
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
+            if (currentPageNum == 0)
+            {
+                MessageBox.Show("最初のページです。");
+                return;
+            }
 
+            currentPageNum--;
+
+            //読み込ませる
+            BitmapImage bmp = new BitmapImage();
+            bmp.BeginInit();
+            bmp.UriSource = new Uri(pageContent[currentPageNum]);
+            bmp.EndInit();
+            image1.Source = bmp;
+
+            //画像の幅と高さを取得
+            Bitmap bmpBase = new Bitmap(pageContent[currentPageNum]);
+            imageWidth = bmpBase.Width;
+            imageHeight = bmpBase.Height;
+            bmpBase.Dispose();
+
+            //表示倍率の取得
+            resizeRate = ww / imageWidth;
+            wh = imageHeight * resizeRate;
+
+
+            //前に描画した情報があれば読み込む
+            try
+            {
+                RoadAnnotateRecord();
+                drawAll();
+            }
+            catch
+            {
+                //MessageBox.Show("再読み込み失敗");
+            }
+
+            drawFlag = false;
         }
 
         //すすむボタン
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                currentPageNum++;
 
+                //読み込ませる
+                BitmapImage bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(pageContent[currentPageNum]);
+                bmp.EndInit();
+                image1.Source = bmp;
+
+                //画像の幅と高さを取得
+                Bitmap bmpBase = new Bitmap(pageContent[currentPageNum]);
+                imageWidth = bmpBase.Width;
+                imageHeight = bmpBase.Height;
+                bmpBase.Dispose();
+
+                //表示倍率の取得
+                resizeRate = ww / imageWidth;
+                wh = imageHeight * resizeRate;
+
+                //前に描画した情報があれば読み込む
+                try
+                {
+                    RoadAnnotateRecord();
+                    drawAll();
+                }
+                catch
+                {
+                    //MessageBox.Show("再読み込み失敗");
+                }
+                drawFlag = false;
+            }
+
+            catch
+            {
+                MessageBox.Show("最後のページです。");
+            }
         }
 
         //スライダーの値を変えたとき
@@ -808,6 +883,8 @@ namespace epubReader4._0_Dino
         //描画処理 mouseup
         private void inkCanvas1_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            drawFlag = true;
+
             UIElement el = sender as UIElement;
             Console.WriteLine("まうすがはなれたよ");
 
@@ -1208,6 +1285,11 @@ namespace epubReader4._0_Dino
         //ストローク情報の保存
         public void SaveAnnotateRecord()
         {
+            if( !drawFlag )
+            {
+                return;
+            }
+
             //動作ログの保存と、ストローク情報の保存
             if (!Directory.Exists(thawPath + "\\Strokes"))
             {
