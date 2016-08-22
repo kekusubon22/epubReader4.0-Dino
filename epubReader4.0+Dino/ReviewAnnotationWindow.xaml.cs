@@ -16,6 +16,7 @@ using System.Xml;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Ink;
+using System.Threading.Tasks;
 
 namespace epubReader4._0_Dino
 {
@@ -32,6 +33,7 @@ namespace epubReader4._0_Dino
         List<StrokeLine> strokeLines = new List<StrokeLine>();
         List<LearningLog> learningLogs = new List<LearningLog>();
         int counter = 0;
+        bool animationNow = false;
 
         //Load
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -239,6 +241,43 @@ namespace epubReader4._0_Dino
                     inkCanvas1.Strokes.Add(stroke);
                 }
             }
-        } 
+        }
+
+        //アニメーション再生のボタン
+        private async void anomationButton_Click(object sender, RoutedEventArgs e)
+        {
+            //アニメーション再生中
+            animationNow = true;
+
+            //いちお、現在のカウンターを取っておく
+            int nowCounter = counter;
+
+            //初期状態にする
+            inkCanvas1.Strokes.Clear();
+
+            //一操作ごとに1000ミリ秒待って実行
+            for (counter = 0; counter < learningLogs.Count; )
+            {
+                await playAnimation();
+            }
+            counter = 0;
+
+            animationNow = false;
+        }
+
+        
+        //アニメーション再生の処理
+        private async Task playAnimation()
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                //他スレッドでコントロールを操作するので、Dispatcherが必要
+                inkCanvas1.Dispatcher.Invoke(new Action(() =>
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    goButton_Click(null, null);
+                }));
+            });
+        }
     }
 }
