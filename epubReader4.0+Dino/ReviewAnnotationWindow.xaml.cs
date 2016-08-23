@@ -17,6 +17,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Ink;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace epubReader4._0_Dino
 {
@@ -34,6 +35,8 @@ namespace epubReader4._0_Dino
         List<LearningLog> learningLogs = new List<LearningLog>();
         int counter = 0;
         bool animationNow = false;
+        //非同期処理のキャンセル要求
+        private CancellationTokenSource _tokenSource = null;
 
         //Load
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -145,13 +148,13 @@ namespace epubReader4._0_Dino
             {
                 //MessageBox.Show("counter = " + counter);
                 //MessageBox.Show("learningLogs[" + counter + "] = (" + learningLogs[counter].GetStrokeId() + ", " + learningLogs[counter].GetBehavior() + ")");
-                
+
                 //一次元目がallなら全消去なのですべて再描画する
                 if (learningLogs[counter].GetStrokeId().Equals("all"))
                 {
                     //ターゲットとなるストロークのidを取ってくる
                     //対象の動作オブジェクトには（"all", "erase"）が入っているので、一つ前の動作のストロークidを使う
-                    int x = Int16.Parse(learningLogs[counter+1].GetStrokeId());
+                    int x = Int16.Parse(learningLogs[counter + 1].GetStrokeId());
 
                     drawAll(x);
                 }
@@ -222,7 +225,7 @@ namespace epubReader4._0_Dino
                 StrokeLine sl = strokeLines[i];
 
                 //指定されたときまでに消去済みでなく、隠れたスペースに書いていないストローク以外を再描画
-                if (!sl.GetInSpace() && (sl.GetEreasedTime() > counter || !sl.GetEreased() ))
+                if (!sl.GetInSpace() && (sl.GetEreasedTime() > counter || !sl.GetEreased()))
                 {
                     //線の色、幅を取得
                     DrawingAttributes DA = new DrawingAttributes();
@@ -244,31 +247,42 @@ namespace epubReader4._0_Dino
         }
 
         //アニメーション再生のボタン
-        private async void anomationButton_Click(object sender, RoutedEventArgs e)
+        private async void animationButton_Click(object sender, RoutedEventArgs e)
         {
-            //アニメーション再生中
-            animationNow = true;
-
-            //いちお、現在のカウンターを取っておく
-            int nowCounter = counter;
-
-            //初期状態にする
-            inkCanvas1.Strokes.Clear();
-
-            //一操作ごとに1000ミリ秒待って実行
-            for (counter = 0; counter < learningLogs.Count; )
+            if (!animationNow)
             {
-                await playAnimation();
+                //アニメーション再生中
+                animationNow = true;
+                animationButton.Content = "stop";
+
+                //いちお、現在のカウンターを取っておく
+                int nowCounter = counter;
+
+                //初期状態にする
+                inkCanvas1.Strokes.Clear();
+
+                //一操作ごとに1000ミリ秒待って実行
+                for (counter = 0; counter < learningLogs.Count; )
+                {
+                    await playAnimation();
+                }
             }
-            counter = 0;
+
+            else
+            {
+                if (_tokenSource != null) _tokenSource.Cancel();
+            }
 
             animationNow = false;
         }
 
-        
         //アニメーション再生の処理
         private async Task playAnimation()
         {
+            //キャンセル処理のため
+            if (_tokenSource == null) _tokenSource = new CancellationTokenSource();
+            var token = _tokenSource.Token;
+
             await Task.Factory.StartNew(() =>
             {
                 //他スレッドでコントロールを操作するので、Dispatcherが必要
@@ -277,6 +291,24 @@ namespace epubReader4._0_Dino
                     System.Threading.Thread.Sleep(1000);
                     goButton_Click(null, null);
                 }));
+
+                //キャンセル通知が来ていたら例外を投げてタスクを終了させる
+                token.ThrowIfCancellationRequested();
+
+                //続きの処理
+                token.ThrowIfCancellationRequested();
+
+            }, token).ContinueWith(t =>
+            {
+                //あとしまつ
+                _tokenSource.Dispose();
+                _tokenSource = null;
+
+                if (t.IsCanceled)
+                {
+                    //キャンセルされたときの処理
+                    MessageBox.Show("処理中断");
+                }
             });
         }
     }
