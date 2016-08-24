@@ -295,9 +295,6 @@ namespace epubReader4._0_Dino
                 //キャンセル通知が来ていたら例外を投げてタスクを終了させる
                 token.ThrowIfCancellationRequested();
 
-                //続きの処理
-                token.ThrowIfCancellationRequested();
-
             }, token).ContinueWith(t =>
             {
                 //あとしまつ

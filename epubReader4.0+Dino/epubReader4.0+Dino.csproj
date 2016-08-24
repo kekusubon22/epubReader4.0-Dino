@@ -203,8 +203,14 @@
     <Compile Include="ReviewAnnotationWindow.xaml.cs">
       <DependentUpon>ReviewAnnotationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectAddinWindow.xaml.cs">
+      <DependentUpon>SelectAddinWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelectEpubWindow.xaml.cs">
       <DependentUpon>SelectEpubWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowAddinWindow.xaml.cs">
+      <DependentUpon>ShowAddinWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShowAnnotationWindow.xaml.cs">
       <DependentUpon>ShowAnnotationWindow.xaml</DependentUpon>
@@ -288,7 +294,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SelectAddinWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SelectEpubWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowAddinWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
