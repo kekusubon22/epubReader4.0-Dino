@@ -71,6 +71,7 @@ namespace epubReader4._0_Dino
         {
             this.AllowDrop = true;
         }
+
         int x = 1;
         System.Windows.Controls.Image[] img = new System.Windows.Controls.Image[100];
         string pageDirectory1 = "";

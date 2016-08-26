@@ -43,7 +43,7 @@ namespace epubReader4._0_Dino
                 pageName[d] = null;
             }
             subjectNamePW = subjectName;
-            pageDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\note\\" + subjectName + "\\" + unitName;
+            pageDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\note\\" + subjectName + "\\" + unitName;
 
             //epubファイルを、大文字小文字を区別して探す
             System.Collections.ObjectModel.ReadOnlyCollection<string> files =

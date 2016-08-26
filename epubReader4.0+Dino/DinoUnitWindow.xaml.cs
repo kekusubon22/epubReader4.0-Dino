@@ -42,11 +42,11 @@ namespace epubReader4._0_Dino
                 unitName[d] = null;
             }
 
-            string unitDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\note";
+            string unitDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\note";
 
             //epubファイルを、大文字小文字を区別して探す
             string[] subFolders = System.IO.Directory.GetDirectories(
-                System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\note\\" + subjectName, "*", System.IO.SearchOption.TopDirectoryOnly);
+                System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\note\\" + subjectName, "*", System.IO.SearchOption.TopDirectoryOnly);
 
             d = 0;
             foreach (string f in subFolders)
@@ -125,7 +125,7 @@ namespace epubReader4._0_Dino
 
         public void newFolder(string subject)
         {
-            System.IO.DirectoryInfo di = System.IO.Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Note\\" + subject);
+            System.IO.DirectoryInfo di = System.IO.Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\Note\\" + subject);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

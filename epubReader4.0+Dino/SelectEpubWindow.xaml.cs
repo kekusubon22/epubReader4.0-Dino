@@ -47,7 +47,7 @@ namespace epubReader4._0_Dino
                 epubCover[i] = null;
             }
 
-            epubDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\epub";
+            epubDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\epub";
 
             //epubファイルを、大文字小文字を区別して探す
             System.Collections.ObjectModel.ReadOnlyCollection<string> files =

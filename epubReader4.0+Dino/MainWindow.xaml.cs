@@ -119,7 +119,7 @@ namespace epubReader4._0_Dino
             int k = 0;
             int l = 0;
 
-            epubPath = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\epub\\" + epubName;
+            epubPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\epub\\" + epubName;
 
             this.Title = epubName;
             currentPageSingle = startPageNum;
@@ -221,8 +221,6 @@ namespace epubReader4._0_Dino
 
             webBrowser1.UseJavaScript = true;
             webBrowser1.Preferences.AllowPlugins = true;
-
-            addinFilePath = checkAddin( pageContent[currentPageSingle] );
         }
 
         //次のページへ進むときの処理
@@ -258,9 +256,6 @@ namespace epubReader4._0_Dino
 
             //倍率の設定
             adjustZoom();
-
-            //開いたページに対して追加教材があるかチェック
-            addinFilePath = checkAddin(pageContent[currentPageSingle]);
         }
 
         //前のページへ戻る時の処理
@@ -290,9 +285,6 @@ namespace epubReader4._0_Dino
 
             //倍率の設定
             adjustZoom();
-
-            //開いたページに対して追加教材があるかチェック
-            addinFilePath = checkAddin(pageContent[currentPageSingle]);
         }
 
         //紙面を保存するときの処理(スクショする)
@@ -695,116 +687,10 @@ namespace epubReader4._0_Dino
             webBrowser1.PageZoom = (float)zoom;
         }
 
-        //現在のページに対するアドインがあるかチェックする
-        private string checkAddin(string currentPageName)
-        {
-            string[] addinSubjectName = new string[32];
-            string[] addinTextbookName = new string[32];
-            string[] addinPageHref = new string[32];
-            string[] addinStyle = new string[32];
-
-            addinFilesDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Containts Add-in";
-
-            string[] files = System.IO.Directory.GetFiles(addinFilesDirectory, "*.xml", System.IO.SearchOption.AllDirectories);
-
-            int i = 0;
-            foreach (string f in files)
-            {
-                Console.WriteLine(f);
-
-                // ここからxmlを読み込む
-                XmlDocument xmlDoc = new XmlDocument();
-
-                // XmlDocumentオブジェクトを作成
-                xmlDoc.Load(@f);
-
-                int j = 0;
-                try
-                {
-                    // ルートの要素を取得
-                    XmlElement xmlRoot = xmlDoc.DocumentElement;
-
-                    // 教科名の取得
-                    // <subject>要素をセット
-                    XmlNodeList xmlSubjects = xmlRoot.GetElementsByTagName("subject");
-
-                    // 取得した<subject>要素はXmlNodeListなのでXmlElementにキャストする
-                    XmlElement xmlSubject = (XmlElement)xmlSubjects.Item(j);
-
-                    // <subject>要素のnameの属性値を取得します
-                    addinSubjectName[i] = xmlSubject.GetAttribute("name");
-                    Console.WriteLine(addinSubjectName[i]);
-
-
-                    // 該当書籍名の取得
-                    // <textbook>要素をセット
-                    XmlNodeList xmlTextbooks = xmlRoot.GetElementsByTagName("textbook");
-
-                    // 取得した<textbook>要素はXmlNodeListなのでXmlElementにキャストする
-                    XmlElement xmlTextbook = (XmlElement)xmlTextbooks.Item(j);
-
-                    // <textbook>要素のnameの属性値を取得します
-                    addinTextbookName[i] = xmlTextbook.GetAttribute("name");
-                    Console.WriteLine(addinTextbookName[i]);
-
-
-                    // 該当ページの取得
-                    // <page>要素をセット
-                    XmlNodeList xmlPages = xmlRoot.GetElementsByTagName("page");
-
-                    // 取得した<page>要素はXmlNodeListなのでXmlElementにキャストする
-                    XmlElement xmlPage = (XmlElement)xmlPages.Item(j);
-
-                    // <page>要素のhrefの属性値を取得します
-                    addinPageHref[i] = xmlPage.GetAttribute("href");
-                    Console.WriteLine(addinPageHref[i]);
-
-
-                    // 該当スタイルの取得
-                    // <style>要素をセット
-                    XmlNodeList xmlStyles = xmlRoot.GetElementsByTagName("style");
-
-                    // 取得した<style>要素はXmlNodeListなのでXmlElementにキャストする
-                    XmlElement xmlStyle = (XmlElement)xmlStyles.Item(j);
-
-                    // <style>要素のcategoryの属性値を取得します
-                    addinStyle[i] = xmlStyle.GetAttribute("category");
-                    Console.WriteLine(addinStyle[i]);
-
-                }
-                catch (System.Xml.XmlException Ex)
-                {
-                    MessageBox.Show(Ex.Message);
-                }
-
-                i++;
-            } //foreach
-
-            int k = 0;
-
-            //MessageBox.Show(epubFileName + "|" + addinTextbookName[k]);
-            //MessageBox.Show(pageContent[currentPageSingle].Replace(epubPath.Replace(".epub", "") + "\\OEBPS\\", "") + "|" + addinPageHref[k]);
-            for (; k < i; k++)
-            {
-                if ( addinTextbookName[k].Equals(epubFileName) )
-                {
-                    if ( pageContent[currentPageSingle].Replace(epubPath.Replace(".epub", "") + "\\OEBPS\\", "").Equals(addinPageHref[k]) )
-                    {
-                        OpenContaintsAddinButton.Visibility = System.Windows.Visibility.Visible;
-                        //MessageBox.Show(files[k].Replace(".xml", ".html"));
-                        return files[k].Replace(".xml", ".html");
-                    }
-                }
-            }
-
-            OpenContaintsAddinButton.Visibility = System.Windows.Visibility.Collapsed;
-            return "0";
-        }
-
         //デジタルノート起動
         private void RaunchDinoButton_Click(object sender, RoutedEventArgs e)
         {
-            notePath = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Note";
+            notePath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\Note";
 
             //note4.MainWindow dinoDalog = new note4.MainWindow();
             //dinoDalog.Show();

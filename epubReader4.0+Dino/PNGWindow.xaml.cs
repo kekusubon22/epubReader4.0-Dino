@@ -99,6 +99,9 @@ namespace epubReader4._0_Dino
         //動作のログ
         List<LearningLog> learningLogs = new List<LearningLog>();
 
+        //ユーザ情報を表すオブジェクト
+        User user = new User();
+
         //初期処理
         public void init(string epubDirectory, string epubFileName, int pageNum)
         {
@@ -293,6 +296,56 @@ namespace epubReader4._0_Dino
             catch
             {
                 //MessageBox.Show("再読み込み失敗");
+            }
+
+            //ユーザ情報の読み込み なければ新たに書き入れる
+            string userFileName =  epubDirectory + "\\user.xml";
+            if( File.Exists(userFileName) )
+            {
+                //XmlSerializerオブジェクトを作成
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(User));
+               
+                //読み込むファイルを開く
+                System.IO.StreamReader sr = new System.IO.StreamReader( userFileName, new System.Text.UTF8Encoding(false));
+                
+                //XMLファイルから読み込み、逆シリアル化する
+                user = (User)serializer.Deserialize(sr);
+                
+                //ファイルを閉じる
+                sr.Close();
+            }
+
+            else
+            {
+                // 0 以上 512 未満の乱数を取得する
+                Random rand = new System.Random();
+                int r = rand.Next(0, 1000);
+
+                //保存するクラス(User)
+                string userId = r + "";
+                if (r < 100)
+                {
+                    userId = "0" + r;
+                    if(r < 10)
+                    {
+                        userId = "0" + userId;
+                    }
+                }
+                user.SetId("ST" + userId);
+                user.SetType("student");
+
+                //XmlSerializerオブジェクトを作成 
+                //オブジェクトの型を指定する
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(User));
+                
+                //書き込むファイルを開く（UTF-8 BOM無し）
+                System.IO.StreamWriter sw = new System.IO.StreamWriter( userFileName, false, new System.Text.UTF8Encoding(false));
+                
+                //シリアル化し、XMLファイルに保存する
+                serializer.Serialize(sw, user);
+                
+                //ファイルを閉じる
+                sw.Close();
             }
 
         }

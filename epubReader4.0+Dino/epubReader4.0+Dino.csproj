@@ -222,6 +222,7 @@
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="StrokeLine.cs" />
+    <Compile Include="User.cs" />
     <Page Include="AnnotationToolsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

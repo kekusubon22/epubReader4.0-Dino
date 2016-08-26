@@ -37,11 +37,11 @@ namespace epubReader4._0_Dino
         private void enterButton_Click(object sender, RoutedEventArgs e)
         {
             string unitName = nameBox.Text;
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Note\\" + subjectName + "\\" + unitName);
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\Note\\" + subjectName + "\\" + unitName);
             di.Create();
-            System.IO.DirectoryInfo imageDI = new System.IO.DirectoryInfo(System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Note\\" + subjectName + "\\" + unitName + "\\image");
+            System.IO.DirectoryInfo imageDI = new System.IO.DirectoryInfo(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\Note\\" + subjectName + "\\" + unitName + "\\image");
             imageDI.Create();
-            System.IO.DirectoryInfo imageTBDI = new System.IO.DirectoryInfo(System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Note\\" + subjectName + "\\" + unitName + "\\imageTB");
+            System.IO.DirectoryInfo imageTBDI = new System.IO.DirectoryInfo(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ContentsData\\Note\\" + subjectName + "\\" + unitName + "\\imageTB");
             imageTBDI.Create();
 
             DinoPageWindow mainDialog = new DinoPageWindow();
