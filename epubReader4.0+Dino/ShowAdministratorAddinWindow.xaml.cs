@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace epubReader4._0_Dino
 {
     /// <summary>
-    /// ShowAddinWindow.xaml の相互作用ロジック
+    /// ShowAdministratorAddinWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ShowAddinWindow : Window
+    public partial class ShowAdministratorAddinWindow : Window
     {
-        public ShowAddinWindow()
+        public ShowAdministratorAddinWindow()
         {
             InitializeComponent();
         }

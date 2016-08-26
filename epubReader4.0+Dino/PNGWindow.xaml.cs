@@ -54,8 +54,8 @@ namespace epubReader4._0_Dino
         string dinoNowOpening = "none";
 
         //教材追加機能に関する変数
-        string addinFilesDirectory;
-        string addinFilePath = "0";
+        string myAddinDirectiory;
+        string cameraRollDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Camera Roll";
 
         //表示している画像の元の大きさを表す変数
         int imageWidth;
@@ -508,7 +508,18 @@ namespace epubReader4._0_Dino
         //教材追加ボタン
         private void AddContaintsButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            //自分のアドインファイルの置き場がなければつくる
+            myAddinDirectiory = epubDirectory.Replace("epub", "Addin") + "\\" + user.GetId();
+            if (!Directory.Exists(myAddinDirectiory))
+            {
+                Directory.CreateDirectory(myAddinDirectiory);
+            }
+
+            //自分のアドイン置き場とカメラロールのパスを渡して一覧表示
+            SelectMyAddinWindow smaw = new SelectMyAddinWindow();
+            smaw.Owner = this;
+            smaw.Show();
+            smaw.init(cameraRollDirectory, myAddinDirectiory , user);
         }
 
         //追加教材閲覧機能ボタン

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -15,42 +14,42 @@ using System.Windows.Shapes;
 namespace epubReader4._0_Dino
 {
     /// <summary>
-    /// SelectAddinWindow.xaml の相互作用ロジック
+    /// SelectMyAddinWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class SelectAddinWindow : Window
+    public partial class SelectMyAddinWindow : Window
     {
-        public SelectAddinWindow()
+        public SelectMyAddinWindow()
         {
             InitializeComponent();
         }
 
-        //アドインを一覧表示するWindow
+        //自分のカメラロールから教材を追加するWindow
+        string cameraRollDirectory;
+        string myAddinDirectory;
+
         //初期処理
-        public void init(string addinDirectory, User user)
+        public void init(string cameraRollDirectory, string myAddinDirectory, User user)
         {
+            this.cameraRollDirectory = cameraRollDirectory;
+            this.myAddinDirectory = myAddinDirectory;
+
             //ボタンを生成
             Button[] btn = new Button[1024];
 
             int j = 0; //グリッドの列要素の位置
             int k = 0; //グリッドの行要素の位置
 
-            //追加教材ディレクトリに画像が何枚保存されているか調べる
-            string searchKeyword = ".png";
-            string[] files = System.IO.Directory.GetFiles(addinDirectory, searchKeyword, System.IO.SearchOption.TopDirectoryOnly);
+            //カメラロールディレクトリに画像が何枚保存されているか調べる
+            string searchKeyword = "*.jpg";
+            string[] files = System.IO.Directory.GetFiles(cameraRollDirectory, searchKeyword, System.IO.SearchOption.TopDirectoryOnly);
 
             int i = 0;
             foreach (string f in files)
             {
 
                 btn[i] = new Button() { Content = f };
-                if (System.IO.File.Exists(f))
-                {
-                    btn[i].Background = new ImageBrush(new BitmapImage(new Uri(f, UriKind.Relative)));
-                }
-                else
-                {
-                    btn[i].Background = new SolidColorBrush(Color.FromArgb(255, 200, 240, 190));
-                }
+                btn[i].Background = new ImageBrush(new BitmapImage(new Uri(f, UriKind.Relative)));
+
                 if (j < 5)
                 {
                     ColumnDefinition cd1 = new ColumnDefinition() { Width = new GridLength(200) };
@@ -64,7 +63,7 @@ namespace epubReader4._0_Dino
                     j = 1;
                     k++;
                 }
-                btn[i].Content = string.Format("{0}." + f.Replace(System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Addin\\" + user.GetId() + "\\",""), i + 1);
+                btn[i].Content = string.Format("{0}." + f.Replace(cameraRollDirectory + "\\",""), i + 1);
                 Grid.SetColumn(btn[i], j);
                 Grid.SetRow(btn[i], k);
                 grid1.Children.Add(btn[i]);
@@ -80,11 +79,17 @@ namespace epubReader4._0_Dino
         //それぞれのボタンを押したときの処理
         public void btn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("開きます。");
+            //senderからクリックしたファイル名を取得
+            string picName = sender.ToString();
+            picName = picName.Replace("System.Windows.Controls.Button: ", "");
+            int x = picName.IndexOf(".");
+            picName = picName.Remove(0, x + 1);
 
-            ShowAddinWindow saw = new ShowAddinWindow();
-            saw.Owner = this;
-            saw.Show();
+            //アドインのディレクトリに当該ファイルをコピー
+            System.IO.File.Copy(cameraRollDirectory + "\\" + picName, myAddinDirectory + "\\" + picName);
+
+            MessageBox.Show(picName + "を追加しました。");
+            this.Close();
         }
     }
 }
