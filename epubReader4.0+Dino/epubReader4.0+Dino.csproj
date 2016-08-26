@@ -203,9 +203,6 @@
     <Compile Include="ReviewAnnotationWindow.xaml.cs">
       <DependentUpon>ReviewAnnotationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelectAddinWindow.xaml.cs">
-      <DependentUpon>SelectAddinWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SelectEpubWindow.xaml.cs">
       <DependentUpon>SelectEpubWindow.xaml</DependentUpon>
     </Compile>
@@ -304,10 +301,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ReviewAnnotationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SelectAddinWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

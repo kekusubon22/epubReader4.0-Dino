@@ -85,10 +85,18 @@ namespace epubReader4._0_Dino
             int x = picName.IndexOf(".");
             picName = picName.Remove(0, x + 1);
 
-            //アドインのディレクトリに当該ファイルをコピー
-            System.IO.File.Copy(cameraRollDirectory + "\\" + picName, myAddinDirectory + "\\" + picName);
+            try
+            {
+                //アドインのディレクトリに当該ファイルをコピー
+                System.IO.File.Copy(cameraRollDirectory + "\\" + picName, myAddinDirectory + "\\" + picName);
+                MessageBox.Show(picName + "を追加しました。");
+            }
 
-            MessageBox.Show(picName + "を追加しました。");
+            catch
+            {
+                MessageBox.Show("既に追加されています。");
+            }
+
             this.Close();
         }
     }
