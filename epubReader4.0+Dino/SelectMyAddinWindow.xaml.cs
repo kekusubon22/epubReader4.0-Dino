@@ -60,11 +60,11 @@ namespace epubReader4._0_Dino
                 {
                     RowDefinition rd1 = new RowDefinition() { Height = new GridLength(200) };
                     grid1.RowDefinitions.Add(rd1);
-                    j = 1;
+                    j = 0;
                     k++;
                 }
                 btn[i].Content = string.Format("{0}." + f.Replace(cameraRollDirectory + "\\",""), i + 1);
-                Grid.SetColumn(btn[i], j);
+                Grid.SetColumn(btn[i], j-1);
                 Grid.SetRow(btn[i], k);
                 grid1.Children.Add(btn[i]);
                 btn[i].VerticalAlignment = VerticalAlignment.Stretch;
@@ -73,6 +73,7 @@ namespace epubReader4._0_Dino
                 btn[i].Height = double.NaN; //Autoという意味
 
                 btn[i].Click += new RoutedEventHandler(btn_Click);
+                i++;
             }
         }
 
@@ -90,6 +91,7 @@ namespace epubReader4._0_Dino
                 //アドインのディレクトリに当該ファイルをコピー
                 System.IO.File.Copy(cameraRollDirectory + "\\" + picName, myAddinDirectory + "\\" + picName);
                 MessageBox.Show(picName + "を追加しました。");
+
             }
 
             catch

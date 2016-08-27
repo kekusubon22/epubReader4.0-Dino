@@ -156,6 +156,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddinWindow.xaml.cs">
+      <DependentUpon>AddinWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AnnotationToolsWindow.xaml.cs">
       <DependentUpon>AnnotationToolsWindow.xaml</DependentUpon>
     </Compile>
@@ -232,6 +235,10 @@
     </Compile>
     <Compile Include="StrokeLine.cs" />
     <Compile Include="User.cs" />
+    <Page Include="AddinWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AnnotationToolsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
