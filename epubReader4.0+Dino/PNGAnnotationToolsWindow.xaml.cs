@@ -60,7 +60,7 @@ namespace epubReader4._0_Dino
 
         private void YellowButton_Click(object sender, RoutedEventArgs e)
         {
-            ((PNGWindow)this.Owner).ChangeColor(255, 0, 255, 255);
+            ((PNGWindow)this.Owner).ChangeColor(255, 255, 255, 0);
         }
 
         //直線・自由線切り替え

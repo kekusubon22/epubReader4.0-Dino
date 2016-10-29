@@ -247,50 +247,8 @@ namespace epubReader4._0_Dino
             //image1.AddHandler(System.Windows.Controls.Image.MouseMoveEvent, new MouseEventHandler(image1_MouseMove), true);
             //image1.AddHandler(System.Windows.Controls.Image.MouseUpEvent, new MouseButtonEventHandler(image1_MouseUp), true);
 
-            //ここから要素の情報をxhtmlから取得する
-            //現在表示しているページのxhtmlを調べる
-
-            // XmlDocumentオブジェクトを作成
-            XmlDocument xhtmlDoc = new XmlDocument();
-            xhtmlDoc.Load(xhtmlPage[currentPageNum]);
-            try
-            {
-                // ルートの要素を取得
-                XmlElement xhtmlRoot = xhtmlDoc.DocumentElement;
-
-                // <element>要素をセット
-                XmlNodeList xhtmlNode = xhtmlRoot.GetElementsByTagName("element");
-
-                i = 0;
-                while (true)
-                {
-                    try
-                    {
-                        // 取得した<element>要素はXmlNodeListなのでXmlElementにキャストする
-                        XmlElement xhtmlName = (XmlElement)xhtmlNode.Item(i);
-
-                        // <element>要素の各属性値をリストに格納
-                        Element element = new Element();
-                        element.SetId(xhtmlName.GetAttribute("id"));
-                        element.SetX(Int32.Parse(xhtmlName.GetAttribute("x")));
-                        element.SetY(Int32.Parse(xhtmlName.GetAttribute("y")));
-                        element.SetWidth(Int32.Parse(xhtmlName.GetAttribute("width")));
-                        element.SetHeight(Int32.Parse(xhtmlName.GetAttribute("height")));
-                        elementList.Add(element);
-                    }
-                    catch
-                    {
-                        break;
-                    }
-                    i++;
-                }
-            }
-
-            catch (System.Xml.XmlException Ex)
-            {
-                MessageBox.Show(Ex.Message);
-            }
-
+            //要素の情報をxhtmlから取得する
+            setElementInfo();
 
             //前に描画した情報があれば読み込む
             try
@@ -319,7 +277,6 @@ namespace epubReader4._0_Dino
                 //ファイルを閉じる
                 sr.Close();
             }
-
             else
             {
                 // 0 以上 512 未満の乱数を取得する
@@ -355,9 +312,58 @@ namespace epubReader4._0_Dino
 
         }
 
+        //要素の情報をセットするメソッド
+        public void setElementInfo()
+        {
+            elementList = new List<Element>();
+
+            // XmlDocumentオブジェクトを作成
+            XmlDocument xhtmlDoc = new XmlDocument();
+            xhtmlDoc.Load(xhtmlPage[currentPageNum]);
+            try
+            {
+                // ルートの要素を取得
+                XmlElement xhtmlRoot = xhtmlDoc.DocumentElement;
+
+                // <element>要素をセット
+                XmlNodeList xhtmlNode = xhtmlRoot.GetElementsByTagName("element");
+
+                int i = 0;
+                while (true)
+                {
+                    try
+                    {
+                        // 取得した<element>要素はXmlNodeListなのでXmlElementにキャストする
+                        XmlElement xhtmlName = (XmlElement)xhtmlNode.Item(i);
+
+                        // <element>要素の各属性値をリストに格納
+                        Element element = new Element();
+                        element.SetId(xhtmlName.GetAttribute("id"));
+                        element.SetX(Int32.Parse(xhtmlName.GetAttribute("x")));
+                        element.SetY(Int32.Parse(xhtmlName.GetAttribute("y")));
+                        element.SetWidth(Int32.Parse(xhtmlName.GetAttribute("width")));
+                        element.SetHeight(Int32.Parse(xhtmlName.GetAttribute("height")));
+                        elementList.Add(element);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                    i++;
+                }
+            }
+
+            catch (System.Xml.XmlException Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+        }
+
         //もどるボタン
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
+            ReleaseElementSelected();
+
             if (currentPageNum == 0)
             {
                 MessageBox.Show("最初のページです。");
@@ -391,6 +397,9 @@ namespace epubReader4._0_Dino
             strokeId = 0;
             drawFlag = false;
 
+            //要素の情報をxhtmlから取得する
+            setElementInfo();
+
             //前に描画した情報があれば読み込む
             try
             {
@@ -407,6 +416,8 @@ namespace epubReader4._0_Dino
         //すすむボタン
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
+            ReleaseElementSelected();
+
             try
             {
                 SaveAnnotateRecord();
@@ -435,6 +446,9 @@ namespace epubReader4._0_Dino
                 inkCanvas1.Strokes.Clear();
                 strokeId = 0;
                 drawFlag = false;
+
+                //要素の情報をxhtmlから取得する
+                setElementInfo();
 
                 //前に描画した情報があれば読み込む
                 try
@@ -472,6 +486,8 @@ namespace epubReader4._0_Dino
         //アノテーション機能にする
         private void AnnotationButton_Click(object sender, RoutedEventArgs e)
         {
+            ReleaseElementSelected();
+
             inkCanvas1.EditingMode = InkCanvasEditingMode.Ink;
             inkCanvas1.Visibility = System.Windows.Visibility.Visible;
             PNGAnnotationToolsWindow paw = new PNGAnnotationToolsWindow();
@@ -613,7 +629,7 @@ namespace epubReader4._0_Dino
                 PNGPopupWindow ppw = new PNGPopupWindow();
                 ppw.Owner = this;
                 ppw.Show();
-                ppw.init(popupFileName);
+                ppw.init(popupFileName, thawPath);
             }
         }
 
@@ -1097,8 +1113,6 @@ namespace epubReader4._0_Dino
         //要素選択処理 mousedown
         private void image1_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //Console.WriteLine("mousedown!");
-
             //要素を選択する
             if (!elementSelected)
             {
@@ -1116,144 +1130,23 @@ namespace epubReader4._0_Dino
                 {
                     try
                     {
-                        bool xOK = elementList[i].GetX() * resizeRate < nowX && nowX < elementList[i].GetX() * resizeRate + elementList[i].GetWidth() * resizeRate;
-                        bool yOK = elementList[i].GetY() * resizeRate < nowY && nowY < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate;
+                        bool xOK = (double)elementList[i].GetX() * resizeRate < nowX && nowX < (double)elementList[i].GetX() * resizeRate + (double)elementList[i].GetWidth() * resizeRate;
+                        bool yOK = (double)elementList[i].GetY() * resizeRate < nowY && nowY < (double)elementList[i].GetY() * resizeRate + (double)elementList[i].GetHeight() * resizeRate;
                         if (xOK && yOK)
                         {
-                            //要素が右側にあるか左側にあるか
-                            //左側にあるとき
-                            if (nowX < (ww - 80) / 2)
-                            {
-                                Grid.SetColumn(rect1, 0);
+                            double marginLeft = elementList[i].GetX() * resizeRate;
+                            double marginTop = elementList[i].GetY() * resizeRate;
+                            double marginRight = ww - (elementList[i].GetX() * resizeRate) - (elementList[i].GetWidth() * resizeRate);
+                            double marginBottom = wh - (elementList[i].GetY() * resizeRate) - (elementList[i].GetHeight() * resizeRate);
 
-                                //要素が上下どのあたりの位置にあるか
-                                //（左）上３分の１にあるとき
-                                if (nowY < wh / 3)
-                                {
-                                    Grid.SetRow(rect1, 0);
-
-                                    rect1.Margin = new Thickness(
-                                        elementList[i].GetX() * resizeRate,
-                                        elementList[i].GetY() * resizeRate,
-                                        ww / 2 - elementList[i].GetX() * resizeRate - elementList[i].GetWidth() * resizeRate,
-                                        wh / 3 - elementList[i].GetY() * resizeRate - elementList[i].GetHeight() * resizeRate + 250
-                                    );
-                                    //MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-
-                                    //かつ、真ん中の３分の１にまたがるとき
-                                    if (wh / 3 < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate)
-                                    {
-                                        Grid.SetRowSpan(rect1, 2);
-                                        rect1.Margin = new Thickness(0, 0, 0, 0);
-                                        MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-
-                                        //かつかつ、下３分の１にもまたがるとき
-                                        if (wh * 2 / 3 < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate)
-                                        {
-                                            Grid.SetRowSpan(rect1, 3);
-                                            rect1.Margin = new Thickness(0, 0, 0, 0);
-                                            MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-                                        }
-
-                                    }
-                                }
-
-                                //（左）真ん中３分の１にあるとき
-                                else if (wh / 3 <= nowY && nowY < wh * 2 / 3)
-                                {
-                                    Grid.SetRow(rect1, 1);
-                                    rect1.Margin = new Thickness(0, 0, 0, 0);
-                                    MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-
-                                    //かつ、下３分の１にまたがるとき
-                                    if (wh * 2 / 3 < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate)
-                                    {
-                                        Grid.SetRowSpan(rect1, 2);
-                                        rect1.Margin = new Thickness(0, 0, 0, 0);
-                                        MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-                                    }
-
-                                }
-
-                                //（左）下３分の１にあるとき
-                                else if (wh * 2 / 3 <= nowY)
-                                {
-                                    Grid.SetRow(rect1, 2);
-                                    rect1.Margin = new Thickness(0, 0, 0, 0);
-                                    MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-                                }
-
-                            }
-                            //要素が右側にあるとき
-                            else
-                            {
-                                Grid.SetColumn(rect1, 1);
-
-                                //要素が上下どのあたりの位置にあるか
-                                //（右）上３分の１にあるとき
-                                if (nowY < wh / 3)
-                                {
-                                    Grid.SetRow(rect1, 0);
-
-                                    rect1.Margin = new Thickness(0, 0, 0, 0);
-                                    MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-
-                                    //かつ、真ん中の３分の１にまたがるとき
-                                    if (wh / 3 < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate)
-                                    {
-                                        Grid.SetRowSpan(rect1, 2);
-                                        rect1.Margin = new Thickness(0, 0, 0, 0);
-                                        MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-
-                                        //かつかつ、下３分の１にもまたがるとき
-                                        if (wh * 2 / 3 < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate)
-                                        {
-                                            Grid.SetRowSpan(rect1, 3);
-                                            rect1.Margin = new Thickness(0, 0, 0, 0);
-                                            MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-                                        }
-
-                                    }
-                                }
-
-                                //（右）真ん中３分の１にあるとき
-                                else if (wh / 3 <= nowY && nowY < wh * 2 / 3)
-                                {
-                                    Grid.SetRow(rect1, 1);
-                                    rect1.Margin = new Thickness(
-                                        (elementList[i].GetX() - imageWidth / 2) * resizeRate,
-                                        (elementList[i].GetY() - imageHeight / 3) * resizeRate + 130,
-                                        (imageWidth - elementList[i].GetX() - elementList[i].GetWidth()) * resizeRate,
-                                        ((imageHeight / 3) * 2 - elementList[i].GetY() - elementList[i].GetHeight()) * resizeRate + 230
-                                    );
-                                    //MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-
-                                    //かつ、下３分の１にまたがるとき
-                                    if (wh * 2 / 3 < elementList[i].GetY() * resizeRate + elementList[i].GetHeight() * resizeRate)
-                                    {
-                                        Grid.SetRowSpan(rect1, 2);
-                                        rect1.Margin = new Thickness(0, 0, 0, 0);
-                                        MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-                                    }
-
-                                }
-
-                                //（右）下３分の１にあるとき
-                                else if (wh * 2 / 3 <= nowY)
-                                {
-                                    Grid.SetRow(rect1, 2);
-                                    rect1.Margin = new Thickness(0, 0, 0, 0);
-                                    MessageBox.Show("margin(right, bottom)=(" + rect1.Margin.Right + ", " + rect1.Margin.Bottom + ").");
-                                }
-                            }
-
+                            rect1.Margin = new Thickness(marginLeft, marginTop, marginRight, marginBottom);
                             rect1.Visibility = System.Windows.Visibility.Visible;
+
                             elementSelected = true;
                             PopupButton.Visibility = System.Windows.Visibility.Visible;
                             SpacingButton.Visibility = System.Windows.Visibility.Visible;
                             selectedElementNum = i;
                             break;
-
                         }
                         else
                         {
@@ -1288,6 +1181,16 @@ namespace epubReader4._0_Dino
         private void image1_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        //要素の選択を解除する
+        private void ReleaseElementSelected()
+        {
+            rect1.Visibility = System.Windows.Visibility.Hidden;
+            elementSelected = false;
+            PopupButton.Visibility = System.Windows.Visibility.Hidden;
+            SpacingButton.Visibility = System.Windows.Visibility.Hidden;
+            selectedElementNum = -1;
         }
 
         //ピンチイン / ピンチアウトの処理
@@ -1427,7 +1330,7 @@ namespace epubReader4._0_Dino
         }
 
         //ストローク情報の保存
-        public void SaveAnnotateRecord()
+        private void SaveAnnotateRecord()
         {
             if( !drawFlag )
             {
@@ -1469,7 +1372,7 @@ namespace epubReader4._0_Dino
         }
 
         //ストローク情報の読み込み
-        public void RoadAnnotateRecord()
+        private void RoadAnnotateRecord()
         {
             if( !Directory.Exists(thawPath + "\\Strokes") )
             {
