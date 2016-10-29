@@ -27,7 +27,7 @@ namespace epubReader4._0_Dino
 
         private void init()
         {
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(1000);
             SelectEpubWindow dialog = new SelectEpubWindow();
             dialog.Show();
             this.Owner = dialog;
