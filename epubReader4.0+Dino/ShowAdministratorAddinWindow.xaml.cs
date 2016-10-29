@@ -49,11 +49,18 @@ namespace epubReader4._0_Dino
 
                 btn[i] = new Button() { Content = f };
 
-                try
+                if (f.Contains(".png") || f.Contains(".jpg") || f.Contains(".bmp"))
                 {
-                    btn[i].Background = new ImageBrush(new BitmapImage(new Uri(f, UriKind.Relative)));
+                    try
+                    {
+                        btn[i].Background = new ImageBrush(new BitmapImage(new Uri(f, UriKind.Relative)));
+                    }
+                    catch
+                    {
+                        btn[i].Background = new SolidColorBrush(Color.FromArgb(255, 200, 240, 190));
+                    }
                 }
-                catch
+                else
                 {
                     btn[i].Background = new SolidColorBrush(Color.FromArgb(255, 200, 240, 190));
                 }
