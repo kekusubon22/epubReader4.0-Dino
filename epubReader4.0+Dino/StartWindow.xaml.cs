@@ -22,14 +22,15 @@ namespace epubReader4._0_Dino
         public StartWindow()
         {
             InitializeComponent();
+            ContentRendered += (s, e) => { init(); };
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void init()
         {
+            System.Threading.Thread.Sleep(5000);
             SelectEpubWindow dialog = new SelectEpubWindow();
             dialog.Show();
             this.Owner = dialog;
-
             this.Close();
         }
     }

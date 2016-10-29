@@ -955,9 +955,15 @@ namespace epubReader4._0_Dino
         //閉じるボタン
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            SaveAnnotateRecord();
-            //ImageCaptureAll();
-            this.Close();
+            if (MessageBox.Show("epubReaderを終了しますか？", "かくにん", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                SaveAnnotateRecord();
+                this.Close();
+            }
         }
 
         //描画処理 mousedown
