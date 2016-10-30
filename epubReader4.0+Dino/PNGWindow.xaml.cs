@@ -35,8 +35,8 @@ namespace epubReader4._0_Dino
 
         //epub解析のための変数
         string thawPath;
-        string epubFileName;
-        string epubDirectory;
+        public string epubFileName;
+        public string epubDirectory;
         string[] opfHref = new string[256];
         string[] pageContent = new string[256];
         string[] xhtmlPage = new string[256];
@@ -652,7 +652,7 @@ namespace epubReader4._0_Dino
                 PNGPopupWindow ppw = new PNGPopupWindow();
                 ppw.Owner = this;
                 ppw.Show();
-                ppw.init(popupFileName, thawPath);
+                ppw.init(popupFileName, thawPath, elementList[selectedElementNum].GetId());
             }
         }
 
