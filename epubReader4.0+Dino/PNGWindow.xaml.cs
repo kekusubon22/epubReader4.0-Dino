@@ -514,25 +514,24 @@ namespace epubReader4._0_Dino
             saw.CreateCaptureButton(thawPath, epubFileName);
         }
 
-        //デジタルノートへ指定した範囲を送信する
-        private void SendButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        //デジタルノート起動
-        private void RaunchDenoButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         //教材追加ボタン
         private void AddContaintsButton_Click(object sender, RoutedEventArgs e)
         {
             //ファイル共有するならこっち
             if (Directory.Exists(GetUniversalName(@"\\MCDYNA01\ContentsData")))
             {
-                myAddinDirectory = @"\\MCDYNA01\ContentsData\Addin\Student\" + user.GetId();
+                //要素が選択されていたらそれと関連付ける
+                if (elementSelected)
+                {
+                    myAddinDirectory =
+                        @"\\MCDYNA01\ContentsData\Addin\Student\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + elementList[selectedElementNum].GetId();
+                }
+                //選択されていなければ単元と関連付ける
+                else
+                {
+                    myAddinDirectory = 
+                        @"\\MCDYNA01\ContentsData\Addin\Student\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + unitName[currentPageNum];
+                }
                 string unc_path = GetUniversalName(myAddinDirectory);
 
                 //自分のアドインファイルの置き場がなければつくる
@@ -551,8 +550,20 @@ namespace epubReader4._0_Dino
             //しないならこっち
             else
             {
-                myAddinDirectory = epubDirectory.Replace("epub", "Addin") + "\\Student\\" + user.GetId();
+                //要素が選択されていたらそれと関連付ける
+                if (elementSelected)
+                {
+                    myAddinDirectory =
+                        epubDirectory.Replace("epub", "Addin") + "\\Student\\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + elementList[selectedElementNum].GetId();
+                }
+                //選択されていなければ単元と関連付ける
+                else
+                {
+                    myAddinDirectory =
+                        epubDirectory.Replace("epub", "Addin") + "\\Student\\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + unitName[currentPageNum];
 
+                }
+                
                 //自分のアドインファイルの置き場がなければつくる
                 if (!Directory.Exists(myAddinDirectory))
                 {
@@ -581,7 +592,16 @@ namespace epubReader4._0_Dino
                 SelectWhoseAddinWindow swaw = new SelectWhoseAddinWindow();
                 swaw.Owner = this;
                 swaw.Show();
-                swaw.init(unc_path, user);
+
+                //要素が選択されていればその要素についての、選択されていなければ単元についての教材を表示
+                if (elementSelected)
+                {
+                    swaw.init(unc_path, epubFileName, elementList[selectedElementNum].GetId(), user);
+                }
+                else
+                {
+                    swaw.init(unc_path, epubFileName, unitName[currentPageNum], user);
+                }
             }
 
             //しないならこっち
@@ -594,7 +614,16 @@ namespace epubReader4._0_Dino
                 SelectWhoseAddinWindow swaw = new SelectWhoseAddinWindow();
                 swaw.Owner = this;
                 swaw.Show();
-                swaw.init(addinDirectory, user);
+
+                //要素が選択されていればその要素についての、選択されていなければ単元についての教材を表示
+                if (elementSelected)
+                {
+                    swaw.init(addinDirectory, epubFileName, elementList[selectedElementNum].GetId(), user);
+                }
+                else
+                {
+                    swaw.init(addinDirectory, epubFileName, unitName[currentPageNum], user);
+                }
             }
         }
 
