@@ -60,8 +60,17 @@ namespace epubReader4._0_Dino
             int j = 0; //グリッドの列要素の位置
             int k = 0; //グリッドの行要素の位置
 
-            //対象とするディレクトリにファイルがいくつ保存されているか調べる
-            string[] files = System.IO.Directory.GetFiles(addinDirectory + searchKeyword, "*", System.IO.SearchOption.AllDirectories);
+            string[] files;
+            try
+            {
+                //対象とするディレクトリにファイルがいくつ保存されているか調べる
+                files = System.IO.Directory.GetFiles(addinDirectory + searchKeyword, "*", System.IO.SearchOption.AllDirectories);
+            }
+            catch
+            {
+                MessageBox.Show("ファイルがありません。");
+                return;
+            }
 
             int i = 0;
             foreach (string f in files)
@@ -141,6 +150,13 @@ namespace epubReader4._0_Dino
 
                 btn[i].Click += new RoutedEventHandler(btn_Click);
                 i++;
+            }
+
+            //該当するファイルが一つもなかったらメッセージを出す
+            if (i == 0)
+            {
+                MessageBox.Show("ファイルがありません。");
+                return;
             }
         }
 
