@@ -312,7 +312,7 @@ namespace epubReader4._0_Dino
 
         }
 
-        //要素の情報をセットするメソッド
+        //現在表示しているページの要素の情報をセットするメソッド
         public void setElementInfo()
         {
             elementList = new List<Element>();
@@ -518,7 +518,7 @@ namespace epubReader4._0_Dino
         private void AddContaintsButton_Click(object sender, RoutedEventArgs e)
         {
             //ファイル共有するならこっち
-            if (Directory.Exists(GetUniversalName(@"\\MCDYNA01\ContentsData")))
+            if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
             {
                 //要素が選択されていたらそれと関連付ける
                 if (elementSelected)
@@ -582,7 +582,7 @@ namespace epubReader4._0_Dino
         private void OpenContaintsAddinButton_Click(object sender, RoutedEventArgs e)
         {
             //ファイル共有するならこっち
-            if (Directory.Exists(GetUniversalName(@"\\MCDYNA01\ContentsData")))
+            if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
             {
                 //アドインファイル置き場のパス
                 addinDirectory = @"\\MCDYNA01\ContentsData\Addin";
@@ -625,12 +625,6 @@ namespace epubReader4._0_Dino
                     swaw.init(addinDirectory, epubFileName, unitName[currentPageNum], user);
                 }
             }
-        }
-
-        //メニューバーを左から右 / 右から左　へ
-        private void MoveMenuButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         //ポップアップボタン
