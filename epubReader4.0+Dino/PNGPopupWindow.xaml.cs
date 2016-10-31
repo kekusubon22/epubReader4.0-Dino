@@ -432,8 +432,10 @@ namespace epubReader4._0_Dino
         //キャプチャ一覧の表示
         private void showCaptureButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowAnnotationWindow saw = new ShowAnnotationWindow();
-            saw.Owner = this;
+            PNGSelectAnnotationWindow pslaw = new PNGSelectAnnotationWindow();
+            pslaw.Owner = this;
+            pslaw.Show();
+            pslaw.init(popupFileName + ".png", ((PNGWindow)this.Owner).epubDirectory, ((PNGWindow)this.Owner).epubFileName, ((PNGWindow)this.Owner).user);
 
         }
 
@@ -509,8 +511,11 @@ namespace epubReader4._0_Dino
             }
 
             //imageを保存
-            string savePath = annotationDirectory + "\\" + popupFileName + "_" + k + ".png";
+            string savePath = annotationDirectory + "\\" + popupFileName + ".png_" + k + ".png";
             CaptureScreen(savePath);
+
+            //保存必要性をリセット
+            needToCapturenow = false;
         }
 
         //スクリーンショットの処理

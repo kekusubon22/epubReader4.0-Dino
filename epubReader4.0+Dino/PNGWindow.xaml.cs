@@ -507,10 +507,10 @@ namespace epubReader4._0_Dino
         //自分が撮ったキャプチャの閲覧
         private void ShowAnnotationButton_Click(object sender, RoutedEventArgs e)
         {
-            PNGSelectAnnotationWindow psaw = new PNGSelectAnnotationWindow();
-            psaw.Owner = this;
-            psaw.Show();
-            psaw.init(pageContent[currentPageNum].Replace(thawPath + "\\OEBPS\\image\\", ""));
+            PNGSelectAnnotationWindow pslaw = new PNGSelectAnnotationWindow();
+            pslaw.Owner = this;
+            pslaw.Show();
+            pslaw.init(pageContent[currentPageNum].Replace(thawPath + "\\OEBPS\\image\\", ""), epubDirectory, epubFileName, user);
         }
 
         //教材追加ボタン

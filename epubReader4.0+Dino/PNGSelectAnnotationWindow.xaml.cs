@@ -31,11 +31,17 @@ namespace epubReader4._0_Dino
         //自分のキャプチャ一覧を表示する
         string captureDirectory;
         string searchImageFileName;
+        string epubDirectory;
+        string epubFileName;
+        User user;
 
         //初期処理
-        public void init(string searchImageFileName)
+        public void init(string searchImageFileName, string epubDirectory, string epubFileName, User user)
         {
             this.searchImageFileName = searchImageFileName;
+            this.epubFileName = epubFileName;
+            this.epubDirectory = epubDirectory;
+            this.user = user;
 
             string[] files;
 
@@ -43,7 +49,7 @@ namespace epubReader4._0_Dino
             if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
             {
                 captureDirectory =
-                        @"\\MCDYNA20\ContentsData\Annotation\" + ((PNGWindow)this.Owner).user.GetId() + "\\" + ((PNGWindow)this.Owner).epubFileName.Replace(".epub", "");
+                        @"\\MCDYNA20\ContentsData\Annotation\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "");
 
                 string unc_path = GetUniversalName(captureDirectory);
 
@@ -61,7 +67,7 @@ namespace epubReader4._0_Dino
             else
             {
                 captureDirectory =
-                    ((PNGWindow)this.Owner).epubDirectory.Replace("epub", "Annotation\\") + ((PNGWindow)this.Owner).user.GetId() + "\\" + ((PNGWindow)this.Owner).epubFileName.Replace(".epub", "");
+                    epubDirectory.Replace("epub", "Annotation\\") + user.GetId() + "\\" + epubFileName.Replace(".epub", "");
 
 
                 //自分のアノテーションファイルの置き場がなければつくる
