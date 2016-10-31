@@ -55,11 +55,12 @@ namespace epubReader4._0_Dino
         User user = new User();
 
         //初期処理
-        public void init(string popupPath, string thawPath, string popupFileName)
+        public void init(string popupPath, string thawPath, string popupFileName, User user)
         {
             this.popupPath = popupPath;
             this.thawPath = thawPath;
             this.popupFileName = popupFileName;
+            this.user = user;
 
             BitmapImage bmp = new BitmapImage();
             bmp.BeginInit();

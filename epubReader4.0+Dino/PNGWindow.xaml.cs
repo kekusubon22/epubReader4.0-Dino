@@ -652,7 +652,7 @@ namespace epubReader4._0_Dino
                 PNGPopupWindow ppw = new PNGPopupWindow();
                 ppw.Owner = this;
                 ppw.Show();
-                ppw.init(popupFileName, thawPath, elementList[selectedElementNum].GetId());
+                ppw.init(popupFileName, thawPath, elementList[selectedElementNum].GetId(), user);
             }
         }
 
