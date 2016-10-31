@@ -504,14 +504,13 @@ namespace epubReader4._0_Dino
             cw.Show();
         }
 
-        //学習記録の閲覧
+        //自分が撮ったキャプチャの閲覧
         private void ShowAnnotationButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowAnnotationWindow saw = new ShowAnnotationWindow();
-            saw.Owner = this;
-            saw.Show();
-            saw.Title = epubFileName + "のかきこみ一覧";
-            saw.CreateCaptureButton(thawPath, epubFileName);
+            PNGSelectAnnotationWindow psaw = new PNGSelectAnnotationWindow();
+            psaw.Owner = this;
+            psaw.Show();
+            psaw.init(pageContent[currentPageNum].Replace(thawPath + "\\OEBPS\\image\\", ""));
         }
 
         //教材追加ボタン
@@ -524,13 +523,13 @@ namespace epubReader4._0_Dino
                 if (elementSelected)
                 {
                     myAddinDirectory =
-                        @"\\MCDYNA01\ContentsData\Addin\Student\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + elementList[selectedElementNum].GetId();
+                        @"\\MCDYNA20\ContentsData\Addin\Student\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + elementList[selectedElementNum].GetId();
                 }
                 //選択されていなければ単元と関連付ける
                 else
                 {
                     myAddinDirectory = 
-                        @"\\MCDYNA01\ContentsData\Addin\Student\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + unitName[currentPageNum];
+                        @"\\MCDYNA20\ContentsData\Addin\Student\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + unitName[currentPageNum];
                 }
                 string unc_path = GetUniversalName(myAddinDirectory);
 
@@ -585,7 +584,7 @@ namespace epubReader4._0_Dino
             if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
             {
                 //アドインファイル置き場のパス
-                addinDirectory = @"\\MCDYNA01\ContentsData\Addin";
+                addinDirectory = @"\\MCDYNA20\ContentsData\Addin";
                 string unc_path = GetUniversalName(addinDirectory);
 
                 //誰の教材を表示するか選択する画面へ
@@ -1438,7 +1437,7 @@ namespace epubReader4._0_Dino
             if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
             {
                 captureFileDirectory =
-                        @"\\MCDYNA01\ContentsData\Annotation\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "");
+                        @"\\MCDYNA20\ContentsData\Annotation\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "");
 
                 string unc_path = GetUniversalName(captureFileDirectory);
 

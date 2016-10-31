@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,11 +14,11 @@ using System.Windows.Shapes;
 namespace epubReader4._0_Dino
 {
     /// <summary>
-    /// ShowCaptureWindow.xaml の相互作用ロジック
+    /// PNGShowAnnotationWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ShowCaptureWindow : Window
+    public partial class PNGShowAnnotationWindow : Window
     {
-        public ShowCaptureWindow()
+        public PNGShowAnnotationWindow()
         {
             InitializeComponent();
         }
@@ -62,7 +61,8 @@ namespace epubReader4._0_Dino
 
             bool flag = false;
             int i = 0;
-            while(!flag){
+            while (!flag)
+            {
                 if (epubCaptures[i].Equals(imagePath))
                 {
                     flag = true;
@@ -95,7 +95,7 @@ namespace epubReader4._0_Dino
 
         private void imageNextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (nowImageNum < num-1)
+            if (nowImageNum < num - 1)
             {
                 nowImageNum++;
 
@@ -113,7 +113,5 @@ namespace epubReader4._0_Dino
                 MessageBox.Show("最後の記録です。", "ERROR!");
             }
         }
-
-
     }
 }

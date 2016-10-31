@@ -200,6 +200,12 @@
     <Compile Include="PNGPopupWindow.xaml.cs">
       <DependentUpon>PNGPopupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PNGSelectAnnotationWindow.xaml.cs">
+      <DependentUpon>PNGSelectAnnotationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PNGShowAnnotationWindow.xaml.cs">
+      <DependentUpon>PNGShowAnnotationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PNGWindow.xaml.cs">
       <DependentUpon>PNGWindow.xaml</DependentUpon>
     </Compile>
@@ -297,6 +303,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PNGPopupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PNGSelectAnnotationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PNGShowAnnotationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

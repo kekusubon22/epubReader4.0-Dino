@@ -164,7 +164,7 @@ namespace epubReader4._0_Dino
                 if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
                 {
                     captureFileDirectory =
-                            @"\\MCDYNA01\ContentsData\Annotation\" + ((PNGWindow)this.Owner).user.GetId() + "\\" + ((PNGWindow)this.Owner).epubFileName.Replace(".epub", "");
+                            @"\\MCDYNA20\ContentsData\Annotation\" + ((PNGWindow)this.Owner).user.GetId() + "\\" + ((PNGWindow)this.Owner).epubFileName.Replace(".epub", "");
 
                     string unc_path = GetUniversalName(captureFileDirectory);
 
