@@ -48,6 +48,9 @@ namespace epubReader4._0_Dino
         int strokeId = 0;
         int counter = 0;
 
+        //新たにキャプチャが必要かどうかを示すflag
+        bool needToCapturenow = false;
+
         //動作のログ
         List<LearningLog> learningLogs = new List<LearningLog>();
 
@@ -213,6 +216,8 @@ namespace epubReader4._0_Dino
                 counter = 0;
             }
 
+            //１操作終わったので、新たにキャプチャが必要
+            needToCapturenow = true;
         }
 
         //色変更
@@ -328,6 +333,9 @@ namespace epubReader4._0_Dino
                 log.SetStrokeId(strokeLines[i].GetId().ToString());
                 log.SetBehavior("erase");
                 learningLogs.Add(log);
+
+                //１操作終わったので、新たにキャプチャが必要
+                needToCapturenow = true;
             }
             catch
             {
@@ -415,6 +423,12 @@ namespace epubReader4._0_Dino
             pprw.init(popupPath, strokeLines, learningLogs);
         }
 
+        //キャプチャボタンを押下した時の処理
+        private void captureButton_Click(object sender, RoutedEventArgs e)
+        {
+            ImageCaptureAll();
+        }
+
         //キャプチャ一覧の表示
         private void showCaptureButton_Click(object sender, RoutedEventArgs e)
         {
@@ -429,8 +443,12 @@ namespace epubReader4._0_Dino
             //ストローク情報の保存
             SaveAnnotateRecord();
 
-            //すく所の処理
-            ImageCaptureAll();
+            //新たにキャプチャが必要なら保存する
+            if (needToCapturenow)
+            {
+                ImageCaptureAll();
+            }
+
             this.Close();
         }
 
