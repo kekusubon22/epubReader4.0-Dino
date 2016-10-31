@@ -292,7 +292,7 @@ namespace epubReader4._0_Dino
         {
             CaptureWindow dialog = new CaptureWindow();
             dialog.Owner = this;
-            dialog.setepubInfo(epubPath, epubFileName, pageContent[currentPageSingle], subjectName, unitName[currentPageSingle], false);
+            dialog.init(epubPath, epubFileName, pageContent[currentPageSingle], subjectName, unitName[currentPageSingle], false);
             dialog.Show();
         }
 
@@ -655,7 +655,7 @@ namespace epubReader4._0_Dino
         {
             CaptureWindow dialog = new CaptureWindow();
             dialog.Owner = this;
-            dialog.setepubInfo(epubPath, epubFileName, pageContent[currentPageSingle], subjectName, unitName[currentPageSingle], true);
+            dialog.init(epubPath, epubFileName, pageContent[currentPageSingle], subjectName, unitName[currentPageSingle], true);
             dialog.Show();
         }
 

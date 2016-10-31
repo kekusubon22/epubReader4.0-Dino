@@ -490,7 +490,7 @@ namespace epubReader4._0_Dino
                 }
             }
 
-            //webBrowser1を保存
+            //imageを保存
             string savePath = annotationDirectory + "\\" + popupFileName + "_" + k + ".png";
             CaptureScreen(savePath);
         }

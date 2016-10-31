@@ -105,7 +105,7 @@ namespace epubReader4._0_Dino
         List<LearningLog> learningLogs = new List<LearningLog>();
 
         //ユーザ情報を表すオブジェクト
-        User user = new User();
+        public User user = new User();
 
         //初期処理
         public void init(string epubDirectory, string epubFileName, int pageNum)
@@ -500,7 +500,7 @@ namespace epubReader4._0_Dino
         {
             CaptureWindow cw = new CaptureWindow();
             cw.Owner = this;
-            cw.setepubInfo(thawPath, epubFileName, pageContent[currentPageNum], subjectName, unitName[currentPageNum], false);
+            cw.init(thawPath, epubFileName, pageContent[currentPageNum], subjectName, unitName[currentPageNum], false);
             cw.Show();
         }
 
@@ -1431,12 +1431,45 @@ namespace epubReader4._0_Dino
         //紙面全体をキャプチャ
         public void ImageCaptureAll()
         {
-            string k = null;
-            string searchPageName = pageContent[currentPageNum].Replace(thawPath + "\\OEBPS\\image\\", "");
-            //MessageBox.Show(searchPageName);
+            string captureFileDirectory;
+            string[] files;
 
-            //保存先にページ.pngが何枚保存されているか調べる
-            string[] files = System.IO.Directory.GetFiles(thawPath + "\\LearningRecord", searchPageName + "*" + ".png", System.IO.SearchOption.TopDirectoryOnly);
+            //ファイル共有するならこっち
+            if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
+            {
+                captureFileDirectory =
+                        @"\\MCDYNA01\ContentsData\Annotation\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "");
+
+                string unc_path = GetUniversalName(captureFileDirectory);
+
+                //自分のアノテーションファイルの置き場がなければつくる
+                if (!Directory.Exists(unc_path))
+                {
+                    Directory.CreateDirectory(unc_path);
+                }
+
+                //保存先にページ.pngが何枚保存されているか調べる
+                files = System.IO.Directory.GetFiles(captureFileDirectory, pageContent[currentPageNum] + "*" + ".png", System.IO.SearchOption.TopDirectoryOnly);
+            }
+
+            //しないならこっち
+            else
+            {
+                captureFileDirectory =
+                    ((PNGWindow)this.Owner).epubDirectory.Replace("epub", "Annotation\\") + user.GetId() + "\\" + epubFileName.Replace(".epub", "");
+
+
+                //自分のアノテーションファイルの置き場がなければつくる
+                if (!Directory.Exists(captureFileDirectory))
+                {
+                    Directory.CreateDirectory(captureFileDirectory);
+                }
+
+                //保存先にページ.pngが何枚保存されているか調べる
+                files = System.IO.Directory.GetFiles(captureFileDirectory, pageContent[currentPageNum] + "*" + ".png", System.IO.SearchOption.TopDirectoryOnly);
+            }
+            string k = null;
+
 
             int i = 0;
             foreach (string f in files)
@@ -1452,8 +1485,8 @@ namespace epubReader4._0_Dino
                 }
             }
 
-            //webBrowser1を保存
-            string savePath = pageContent[currentPageNum].Replace("\\OEBPS\\image", "\\LearningRecord") + "_" + k + ".png";
+            //imageを保存
+            string savePath = captureFileDirectory + "\\" + pageContent[currentPageNum].Replace(epubDirectory + "\\OEBPS\\image\\", "") + "_" + k + ".png";
             CaptureScreen(savePath);
         }
 
