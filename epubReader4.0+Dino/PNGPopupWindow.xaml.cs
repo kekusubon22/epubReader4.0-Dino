@@ -228,21 +228,31 @@ namespace epubReader4._0_Dino
             inkCanvas1.DefaultDrawingAttributes = inkDA;
         }
 
+        //黒 
         private void blackButton_Click(object sender, RoutedEventArgs e)
         {
             colorChange(Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(0), Convert.ToByte(0));
         }
 
+        //赤
         private void redButton_Click(object sender, RoutedEventArgs e)
         {
             colorChange(Convert.ToByte(255), Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(0));
         }
 
+        //青
         private void blueButton_Click(object sender, RoutedEventArgs e)
         {
             colorChange(Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(0), Convert.ToByte(255));
         }
 
+        //緑
+        private void greenButton_Click(object sender, RoutedEventArgs e)
+        {
+            colorChange(Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(255), Convert.ToByte(0));
+        }
+
+        //黄色
         private void yellowButton_Click(object sender, RoutedEventArgs e)
         {
             colorChange(Convert.ToByte(255), Convert.ToByte(255), Convert.ToByte(255), Convert.ToByte(0));
