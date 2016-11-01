@@ -23,12 +23,15 @@ namespace epubReader4._0_Dino
             InitializeComponent();
         }
 
-        string[] epubCaptures = new string[1024];
+        string[] files;
         int nowImageNum = 0;
-        int num = 0;
 
-        public void ShowImage(string imagePath, string epubDirectory)
+        //初期処理
+        public void init(string imagePath, string[] files, int x)
         {
+            this.files = files;
+            nowImageNum = x;
+
             BitmapImage m_bitmap = null;
 
             // BitmapImageにファイルから画像を読み込む
@@ -39,37 +42,6 @@ namespace epubReader4._0_Dino
 
             // Imageコントロールに表示
             image1.Source = m_bitmap;
-
-
-            //imageのpathの配列を用意
-            //保存先にimageが何枚保存されているか調べる
-            System.Collections.ObjectModel.ReadOnlyCollection<string> files =
-            Microsoft.VisualBasic.FileIO.FileSystem.FindInFiles(
-                epubDirectory,
-                "",
-                false,
-                Microsoft.VisualBasic.FileIO.SearchOption.SearchTopLevelOnly,
-                new string[] { "*.png" });
-
-            foreach (string f in files)
-            {
-                epubCaptures[num] = f;
-                //MessageBox.Show(epubCaptures[num]);
-
-                num++;
-            }
-
-            bool flag = false;
-            int i = 0;
-            while (!flag)
-            {
-                if (epubCaptures[i].Equals(imagePath))
-                {
-                    flag = true;
-                    nowImageNum = i;
-                }
-                i++;
-            }
         }
 
         private void imageBackButton_Click(object sender, RoutedEventArgs e)
@@ -82,7 +54,7 @@ namespace epubReader4._0_Dino
                 // BitmapImageにファイルから画像を読み込む
                 m_bitmap = new BitmapImage();
                 m_bitmap.BeginInit();
-                m_bitmap.UriSource = new Uri(epubCaptures[nowImageNum]);
+                m_bitmap.UriSource = new Uri(files[nowImageNum]);
                 m_bitmap.EndInit();
                 // Imageコントロールに表示
                 image1.Source = m_bitmap;
@@ -95,7 +67,7 @@ namespace epubReader4._0_Dino
 
         private void imageNextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (nowImageNum < num - 1)
+            try
             {
                 nowImageNum++;
 
@@ -103,12 +75,13 @@ namespace epubReader4._0_Dino
                 // BitmapImageにファイルから画像を読み込む
                 m_bitmap = new BitmapImage();
                 m_bitmap.BeginInit();
-                m_bitmap.UriSource = new Uri(epubCaptures[nowImageNum]);
+                m_bitmap.UriSource = new Uri(files[nowImageNum]);
                 m_bitmap.EndInit();
+
                 // Imageコントロールに表示
                 image1.Source = m_bitmap;
             }
-            else
+            catch
             {
                 MessageBox.Show("最後の記録です。", "ERROR!");
             }

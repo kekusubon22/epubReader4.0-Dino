@@ -33,6 +33,7 @@ namespace epubReader4._0_Dino
         string searchImageFileName;
         string epubDirectory;
         string epubFileName;
+        string[] files;
         User user;
 
         //初期処理
@@ -42,8 +43,6 @@ namespace epubReader4._0_Dino
             this.epubFileName = epubFileName;
             this.epubDirectory = epubDirectory;
             this.user = user;
-
-            string[] files;
 
             //ファイル共有するならこっち
             if (Directory.Exists(GetUniversalName(@"\\MCDYNA20\ContentsData")))
@@ -124,12 +123,14 @@ namespace epubReader4._0_Dino
         public void btn_Click(object sender, RoutedEventArgs e)
         {
             //senderからクリックしたファイル名を取得
-            string picName = sender.ToString();
-            picName = picName.Replace("System.Windows.Controls.Button: ", "");
-            int x = picName.IndexOf(".");
-            picName = picName.Remove(0, x + 1);
+            string picPath = sender.ToString();
+            picPath = picPath.Replace("System.Windows.Controls.Button: ", "");
+            int x = picPath.IndexOf(".");
+            picPath = picPath.Remove(0, x + 1);
 
-            //PNGShowAnnotationWindow
+            PNGShowAnnotationWindow pshaw = new PNGShowAnnotationWindow();
+            pshaw.Show();
+            pshaw.init(picPath, files, x);
 
             this.Close();
         }
