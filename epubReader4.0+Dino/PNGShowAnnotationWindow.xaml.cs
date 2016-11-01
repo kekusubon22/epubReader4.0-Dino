@@ -44,6 +44,7 @@ namespace epubReader4._0_Dino
             image1.Source = m_bitmap;
         }
 
+        //戻るボタン
         private void imageBackButton_Click(object sender, RoutedEventArgs e)
         {
             if (nowImageNum > 0)
@@ -65,6 +66,7 @@ namespace epubReader4._0_Dino
             }
         }
 
+        //進むボタン
         private void imageNextButton_Click(object sender, RoutedEventArgs e)
         {
             try

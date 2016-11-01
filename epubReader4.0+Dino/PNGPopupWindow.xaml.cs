@@ -427,6 +427,7 @@ namespace epubReader4._0_Dino
         private void captureButton_Click(object sender, RoutedEventArgs e)
         {
             ImageCaptureAll();
+            MessageBox.Show("保存しました！");
         }
 
         //キャプチャ一覧の表示

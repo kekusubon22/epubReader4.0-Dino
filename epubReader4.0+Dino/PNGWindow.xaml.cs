@@ -1000,6 +1000,7 @@ namespace epubReader4._0_Dino
             else
             {
                 SaveAnnotateRecord();
+                DeleteLearningLog();
                 this.Close();
             }
         }
@@ -1425,6 +1426,20 @@ namespace epubReader4._0_Dino
             //ファイルを閉じる
             ssr.Close();
             lsr.Close();
+        }
+
+        //ストローク情報と動作履歴を削除する
+        private void DeleteLearningLog()
+        {
+            //動作のログを削除する
+            if (Directory.Exists(thawPath + "\\Strokes"))
+            {
+                Directory.Delete(thawPath + "\\Strokes", true);
+            }
+            if (Directory.Exists(thawPath + "\\LearningLog"))
+            {
+                Directory.Delete(thawPath + "\\LearningLog", true);
+            }
         }
 
         //紙面全体をキャプチャ
