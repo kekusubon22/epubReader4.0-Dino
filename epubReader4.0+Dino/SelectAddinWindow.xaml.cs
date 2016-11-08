@@ -75,6 +75,12 @@ namespace epubReader4._0_Dino
             int i = 0;
             foreach (string f in files)
             {
+                //fのパスの中にAnnotationとあるものは追加教材に対する書き込みなので、除外する
+                if (f.Contains("\\Annotation\\"))
+                {
+                    continue;
+                }
+
                 //targetがstudentのとき、表示させたいディレクトリ以外のものは除外する
                 if(target.Equals("student") && !f.Contains( epubFileName.Replace(".epub", "") + "\\" + nextDirectoryName ))
                 {
@@ -176,17 +182,19 @@ namespace epubReader4._0_Dino
             //targetによって開くパスが違う
             if (target.Equals("administrator"))
             {
-                aw.init("administrator", addinDirectory + "\\Administrator\\" + epubFileName.Replace(".epub", "") + "\\" + nextDirectoryName + "\\" + fileName);
+                aw.init("administrator", addinDirectory + "\\Administrator\\" + epubFileName.Replace(".epub", "") + "\\" + nextDirectoryName + "\\" + fileName, fileName, user);
             }
             else if (target.Equals("me"))
             {
-                aw.init("administrator", addinDirectory + "\\Student\\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + nextDirectoryName + "\\" + fileName);
+                aw.init("administrator", addinDirectory + "\\Student\\" + user.GetId() + "\\" + epubFileName.Replace(".epub", "") + "\\" + nextDirectoryName + "\\" + fileName, fileName, user);
             }
             else
             {
-                aw.init("administrator", addinDirectory + "\\Student\\" + fileName);
+                aw.init("administrator", addinDirectory + "\\Student\\" + fileName, fileName, user);
             }
 
+            aw.Top = 50;
+            aw.Left = 200;
             this.Close();
         }
     }

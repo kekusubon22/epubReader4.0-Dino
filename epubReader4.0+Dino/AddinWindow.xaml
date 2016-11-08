@@ -10,7 +10,7 @@
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="50"/>
@@ -23,21 +23,30 @@
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <WindowsFormsHost Name="windowsFormsHost1" Grid.Column="0" Grid.ColumnSpan="14" Grid.Row="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Background="#FFC8F0BE"/>
-        <Image Name="image1" Grid.Column="0" Grid.ColumnSpan="14" Grid.Row="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" />
-        <InkCanvas Name="inkCanvas1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="14" Background="Transparent" />
-        <Button Name="BlackButton" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Black" Click="BlackButton_Click"/>
-        <Button Name="WhiteButton" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Width="Auto" Height="50" Background="White" Click="WhiteButton_Click"/>
-        <Button Name="RedButton" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Red" Click="RedButton_Click"/>
-        <Button Name="BlueButton" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Blue" Click="BlueButton_Click"/>
-        <Button Name="GreenButton" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Green" Click="GreenButton_Click"/>
-        <Button Name="YellowButton" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Yellow" Click="YellowButton_Click"/>
-        <Button Name="ModeSwitchButton" Content="直線" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="ModeSwitchButton_Click"/>
-        <Button Name="Width1Button" Content="1" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Stretch" Width="Auto" Background="#C8F0BE" Click="Width1Button_Click"/>
-        <Button Name="Width3Button" Content="3" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="Width3Button_Click"/>
-        <Button Name="Width20Button" Content="20" Grid.Row="0" Grid.Column="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="Width20Button_Click"/>
-        <Button Name="UndoButton" Content="↶" Grid.Row="0" Grid.Column="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="UndoButton_Click"/>
-        <Button Name="ClearButton" Content="＊" Grid.Row="0" Grid.Column="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="ClearButton_Click"/>
+        <WindowsFormsHost Name="windowsFormsHost1" Grid.Column="0" Grid.ColumnSpan="15" Grid.Row="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Background="#FFC8F0BE" Visibility="Hidden"/>
+        <Rectangle Grid.Column="0" Grid.ColumnSpan="14" Grid.Row="1" Fill="White" />
+        <Image Name="image1" Grid.Column="0" Grid.ColumnSpan="15" Grid.Row="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" />
+        <InkCanvas Name="inkCanvas1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="14" Background="Transparent" MouseDown="inkCanvas1_MouseDown" MouseMove="inkCanvas1_MouseMove" MouseUp="inkCanvas1_MouseUp" />
+        <Button Name="blackButton" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Black" Click="blackButton_Click"/>
+        <Button Name="whiteButton" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Width="Auto" Height="50" Background="White" Click="whiteButton_Click"/>
+        <Button Name="redButton" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Red" Click="redButton_Click"/>
+        <Button Name="blueButton" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Blue" Click="blueButton_Click"/>
+        <Button Name="greenButton" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Green" Click="greenButton_Click"/>
+        <Button Name="yellowButton" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="Yellow" Click="yellowButton_Click"/>
+        <Slider Name="slider1" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" Grid.Column="6" Maximum="50" Minimum="1" ValueChanged="slider1_ValueChanged" Value="5" SmallChange="1" Margin="0,20,0,0" />
+        <Button Name="strokeModeChangeButton" Content="直線" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="strokeModeChangeButton_Click"/>
+        <Button Name="undoButton" Content="↶" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="undoButton_Click"/>
+        <Button Name="clearButton" Content="＊" Grid.Row="0" Grid.Column="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="clearButton_Click"/>
+        <Button Name="showCaptureButton" VerticalAlignment="Stretch" Height="Auto" Grid.Row="0" Grid.Column="10" Click="showCaptureButton_Click" >
+            <Button.Background>
+                <ImageBrush ImageSource="Record.png" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button Name="captureButton" VerticalAlignment="Stretch" Height="Auto" Grid.Row="0" Grid.Column="11" Click="captureButton_Click"  >
+            <Button.Background>
+                <ImageBrush ImageSource="Camera.png" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
         <Button Name="CloseButton" Content="x" Grid.Row="0" Grid.Column="13" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="#C8F0BE" Click="CloseButton_Click"/>
     </Grid>
 </Window>
