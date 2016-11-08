@@ -47,10 +47,6 @@ namespace epubReader4._0_Dino
         double slider;
         double x = 0;
 
-        //メニューバーに関する変数
-        bool menuIsLeft = true;
-        bool isEasyMode = false;
-
         //デジタルノートシステムと連携させるための変数
         string subjectName;
         string[] unitName = new string[32];
@@ -504,7 +500,7 @@ namespace epubReader4._0_Dino
             cw.Show();
         }
 
-        //自分が撮ったキャプチャの閲覧
+        //学習記録（自分のキャプチャ）の閲覧
         private void ShowAnnotationButton_Click(object sender, RoutedEventArgs e)
         {
             PNGSelectAnnotationWindow pslaw = new PNGSelectAnnotationWindow();
