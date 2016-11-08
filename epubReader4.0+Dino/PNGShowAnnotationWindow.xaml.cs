@@ -30,7 +30,7 @@ namespace epubReader4._0_Dino
         public void init(string imagePath, string[] files, int x)
         {
             this.files = files;
-            nowImageNum = x;
+            nowImageNum = x-1;
 
             BitmapImage m_bitmap = null;
 
