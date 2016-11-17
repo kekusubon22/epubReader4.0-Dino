@@ -1161,6 +1161,8 @@ namespace epubReader4._0_Dino
                             rect1.Margin = new Thickness(marginLeft, marginTop, marginRight, marginBottom);
                             rect1.Visibility = System.Windows.Visibility.Visible;
 
+                            MessageBox.Show("width = " + image1.ActualWidth + ", height = " + image1.ActualHeight);
+
                             elementSelected = true;
                             PopupButton.Visibility = System.Windows.Visibility.Visible;
                             SpacingButton.Visibility = System.Windows.Visibility.Visible;
