@@ -79,6 +79,12 @@ namespace epubReader4._0_Dino
                 files = System.IO.Directory.GetFiles(captureDirectory, searchImageFileName + "*" + ".png", System.IO.SearchOption.TopDirectoryOnly);
             }
 
+            if(files.Length == 0)
+            {
+                MessageBox.Show("きろくがありません。");
+                this.Close();
+            }
+
             //ボタンを生成
             Button[] btn = new Button[1024];
 
