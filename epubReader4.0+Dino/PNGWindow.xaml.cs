@@ -316,7 +316,7 @@ namespace epubReader4._0_Dino
             resizeRate = image1h / (double)picHeight;
 
             //imageの左右の余白の大きさ
-            imageSpace = ( (double)this.Width - Button2.ActualWidth - image1w ) / (double)2;
+            imageSpace = ( (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - Button2.ActualWidth - image1w ) / (double)2;
         }
 
         //現在表示しているページの要素の情報をセットするメソッド
