@@ -69,6 +69,9 @@ namespace epubReader4._0_Dino
         //実際の倍率からどれくらい拡大(縮小)しているか
         double resizeRate = 1;
 
+        //imageの左右に余白があった場合、その数値
+        double imageSpace = 0;
+
         //アノテーションに必要な変数
         List<StrokeLine> strokeLines = new List<StrokeLine>();
         List<System.Windows.Point> points;
@@ -96,6 +99,7 @@ namespace epubReader4._0_Dino
         int spaceHeight = 200;
         string position = "none"; //スペーシングが必要な位置
         double spaceY = 0; //スペーシングが始まるy座標
+
 
         //動作のログ
         List<LearningLog> learningLogs = new List<LearningLog>();
@@ -310,6 +314,9 @@ namespace epubReader4._0_Dino
             //表示倍率の取得
             resizeRate = image1w / (double)picWidth;
             resizeRate = image1h / (double)picHeight;
+
+            //imageの左右の余白の大きさ
+            imageSpace = ( (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - Button2.ActualWidth - image1w ) / (double)2;
         }
 
         //現在表示しているページの要素の情報をセットするメソッド
@@ -1151,9 +1158,9 @@ namespace epubReader4._0_Dino
                         bool yOK = (double)elementList[i].GetY() * resizeRate < nowY && nowY < (double)elementList[i].GetY() * resizeRate + (double)elementList[i].GetHeight() * resizeRate;
                         if (xOK && yOK)
                         {
-                            double marginLeft = elementList[i].GetX() * resizeRate;
+                            double marginLeft = elementList[i].GetX() * resizeRate + imageSpace;
                             double marginTop = elementList[i].GetY() * resizeRate;
-                            double marginRight = image1w - (elementList[i].GetX() * resizeRate) - (elementList[i].GetWidth() * resizeRate);
+                            double marginRight = image1w - (elementList[i].GetX() * resizeRate) - (elementList[i].GetWidth() * resizeRate) + imageSpace;
                             double marginBottom = image1h - (elementList[i].GetY() * resizeRate) - (elementList[i].GetHeight() * resizeRate);
 
                             rect1.Margin = new Thickness(marginLeft, marginTop, marginRight, marginBottom);
