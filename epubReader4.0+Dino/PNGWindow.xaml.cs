@@ -1141,8 +1141,16 @@ namespace epubReader4._0_Dino
             if (!elementSelected)
             {
                 //現在のポインタの位置の取得
-                int nowX = System.Windows.Forms.Cursor.Position.X - 80;
-                int nowY = System.Windows.Forms.Cursor.Position.Y;
+                System.Drawing.Point dp = System.Windows.Forms.Cursor.Position;
+                System.Windows.Point wp = new System.Windows.Point(dp.X, dp.Y);
+
+                //マウス座標から論理座標に変換
+                PresentationSource src = PresentationSource.FromVisual(this);
+                CompositionTarget ct = src.CompositionTarget;
+                System.Windows.Point p = ct.TransformFromDevice.Transform(wp);
+
+                double nowX = p.X - Button2.ActualWidth - imageSpace;
+                double nowY = p.Y;
 
                 //MessageBox.Show("x=" + elementList[0].GetX());
                 //MessageBox.Show("y=" + elementList[0].GetY());
