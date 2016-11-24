@@ -108,11 +108,11 @@ namespace epubReader4._0_Dino
                 {
                     RowDefinition rd1 = new RowDefinition() { Height = new GridLength(200) };
                     grid1.RowDefinitions.Add(rd1);
-                    j = 0;
+                    j = 1;
                     k++;
                 }
                 btn[i].Content = string.Format("{0}." + f, i + 1);
-                Grid.SetColumn(btn[i], j-1);
+                Grid.SetColumn(btn[i], j);
                 Grid.SetRow(btn[i], k);
                 grid1.Children.Add(btn[i]);
                 btn[i].VerticalAlignment = VerticalAlignment.Stretch;

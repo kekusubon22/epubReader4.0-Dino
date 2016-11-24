@@ -568,8 +568,10 @@ namespace epubReader4._0_Dino
             System.Drawing.Size imageSize = new System.Drawing.Size();
 
             imageLeftTop = inkCanvas1.PointToScreen(new System.Windows.Point(0.0, 0.0));
-            imageSize.Height = (int)inkCanvas1.RenderSize.Height;
-            imageSize.Width = (int)inkCanvas1.RenderSize.Width;
+            imageSize.Height = (int)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height - (int)redButton.ActualHeight;
+            imageSize.Width = (int)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            //imageSize.Height = (int)inkCanvas1.ActualHeight;
+            //imageSize.Width = (int)inkCanvas1.ActualWidth;
 
 
             System.Drawing.Rectangle rc = new System.Drawing.Rectangle();
