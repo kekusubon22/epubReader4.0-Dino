@@ -237,7 +237,7 @@ namespace epubReader4._0_Dino
         }
 
         //描く処理(ペン用)
-        private void inkCanvas1_StylusDown(object sender, StylusEventArgs e)
+        private void inkCanvas1_StylusDown(object sender, StylusDownEventArgs e)
         {
             UIElement el = sender as UIElement;
 
