@@ -106,7 +106,14 @@ namespace epubReader4._0_Dino
         //全消去
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            ((PNGWindow)this.Owner).ClearStrokes();
+            if (MessageBox.Show("線をすべて消しますか？", "かくにん", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                ((PNGWindow)this.Owner).ClearStrokes();
+            }
         }
 
         //閉じる

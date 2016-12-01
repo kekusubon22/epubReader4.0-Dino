@@ -507,32 +507,40 @@ namespace epubReader4._0_Dino
         //すべての線を消去
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (MessageBox.Show("線をすべて消しますか？", "かくにん", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
             {
-                for (int i = 0; i < strokeLines.Count(); i++)
-                {
-                    //ストローク一つひとつに、erase = trueをセット
-                    strokeLines[i].SetEreased(true);
-
-                    //本処理で初めてその線が消える場合のみ、erasedTimeをセット
-                    if (strokeLines[i].GetEreasedTime() == -1)
-                    {
-                        strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
-                    }
-                }
-
-                //動作ログに記録。全消去の時はidの欄をallとする
-                LearningLog log = new LearningLog();
-                log.SetStrokeId("all");
-                log.SetBehavior("erase");
-                learningLogs.Add(log);
-
-                //キャンバスをクリア
-                inkCanvas1.Strokes.Clear();
+                return;
             }
-            catch
+            else
             {
+                ((PNGWindow)this.Owner).ClearStrokes();
+                try
+                {
+                    for (int i = 0; i < strokeLines.Count(); i++)
+                    {
+                        //ストローク一つひとつに、erase = trueをセット
+                        strokeLines[i].SetEreased(true);
 
+                        //本処理で初めてその線が消える場合のみ、erasedTimeをセット
+                        if (strokeLines[i].GetEreasedTime() == -1)
+                        {
+                            strokeLines[i].SetEreasedTime(learningLogs.Count + 1);
+                        }
+                    }
+
+                    //動作ログに記録。全消去の時はidの欄をallとする
+                    LearningLog log = new LearningLog();
+                    log.SetStrokeId("all");
+                    log.SetBehavior("erase");
+                    learningLogs.Add(log);
+
+                    //キャンバスをクリア
+                    inkCanvas1.Strokes.Clear();
+                }
+                catch
+                {
+
+                }
             }
         }
 
