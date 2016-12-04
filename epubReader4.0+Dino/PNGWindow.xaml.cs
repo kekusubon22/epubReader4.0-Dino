@@ -76,10 +76,10 @@ namespace epubReader4._0_Dino
         List<StrokeLine> strokeLines = new List<StrokeLine>();
         List<System.Windows.Point> points;
         System.Windows.Media.Color color = new System.Windows.Media.Color();
-        DrawingAttributes inkDA = new DrawingAttributes();
+        List<DrawingAttributes> inkDAs = new List<DrawingAttributes>();
+        int inkWidth = 3;
         bool isFreeLine = true;
         bool canvasDisplay = true;
-        int inkWidth;
         int strokeId = 0;
         bool drawFlag = false;
 
@@ -219,14 +219,15 @@ namespace epubReader4._0_Dino
             inkCanvas1.EditingMode = InkCanvasEditingMode.None;
 
             //色の初期値として黒を指定
+            DrawingAttributes inkDA = new DrawingAttributes();
             color = System.Windows.Media.Color.FromArgb(Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(0), Convert.ToByte(0));
             inkDA.Color = color;
 
             //太さの初期値は3
-            inkWidth = 3;
-            inkDA.Width = 3;
-            inkDA.Height = 3;
-            inkCanvas1.DefaultDrawingAttributes = inkDA;
+            inkDA.Width = inkWidth;
+            inkDA.Height = inkWidth;
+            inkDAs.Add(inkDA);
+            inkCanvas1.DefaultDrawingAttributes = inkDAs.Last();
             inkCanvas1.AllowDrop = true;
 
             //inkCanvas1にマウスイベントを設定
@@ -492,6 +493,7 @@ namespace epubReader4._0_Dino
             PNGAnnotationToolsWindow paw = new PNGAnnotationToolsWindow();
             paw.Owner = this;
             paw.Show();
+            AnnotationButton.Visibility = Visibility.Hidden;
         }
 
         //部分キャプチャ
@@ -1148,6 +1150,12 @@ namespace epubReader4._0_Dino
         //描画処理（ペン用）
         private void inkCanvas1_StylusDown(object sender, StylusDownEventArgs e)
         {
+            //消しゴムモードなら抜け出す
+            if (inkCanvas1.EditingMode == InkCanvasEditingMode.EraseByPoint)
+            {
+                return;
+            }
+
             UIElement el = sender as UIElement;
 
             //自由線
@@ -1171,6 +1179,12 @@ namespace epubReader4._0_Dino
         //描画処理（ペン用）
         private void inkCanvas1_StylusMove(object sender, StylusEventArgs e)
         {
+            //消しゴムモードなら抜け出す
+            if (inkCanvas1.EditingMode == InkCanvasEditingMode.EraseByPoint)
+            {
+                return;
+            }
+
             UIElement el = sender as UIElement;
 
             //自由線モード
@@ -1183,7 +1197,7 @@ namespace epubReader4._0_Dino
                 StylusPointCollection spc = new StylusPointCollection();
                 spc.Add(new StylusPoint(prevP.X, prevP.Y));
                 spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-                Stroke stroke = new Stroke(spc, inkDA);
+                Stroke stroke = new Stroke(spc, inkDAs.Last());
                 inkCanvas1.Strokes.Add(stroke);
 
                 prevP = e.GetPosition(el);
@@ -1199,7 +1213,7 @@ namespace epubReader4._0_Dino
                 StylusPointCollection spc = new StylusPointCollection();
                 spc.Add(new StylusPoint(startP.X, startP.Y));
                 spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-                Stroke stroke = new Stroke(spc, inkDA);
+                Stroke stroke = new Stroke(spc, inkDAs.Last());
                 inkCanvas1.Strokes.Add(stroke);
 
                 counter++;
@@ -1209,6 +1223,12 @@ namespace epubReader4._0_Dino
         //描画処理（ペン用）
         private void inkCanvas1_StylusUp(object sender, StylusEventArgs e)
         {
+            //消しゴムモードなら抜け出す
+            if (inkCanvas1.EditingMode == InkCanvasEditingMode.EraseByPoint)
+            {
+                return;
+            }
+
             drawFlag = true;
 
             UIElement el = sender as UIElement;
@@ -1223,7 +1243,7 @@ namespace epubReader4._0_Dino
                 StylusPointCollection spc = new StylusPointCollection();
                 spc.Add(new StylusPoint(prevP.X, prevP.Y));
                 spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-                Stroke stroke = new Stroke(spc, inkDA);
+                Stroke stroke = new Stroke(spc, inkDAs.Last());
                 inkCanvas1.Strokes.Add(stroke);
 
                 //配列strokeLinesに追加
@@ -1261,7 +1281,7 @@ namespace epubReader4._0_Dino
                 StylusPointCollection spc = new StylusPointCollection();
                 spc.Add(new StylusPoint(startP.X, startP.Y));
                 spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-                Stroke stroke = new Stroke(spc, inkDA);
+                Stroke stroke = new Stroke(spc, inkDAs.Last());
                 inkCanvas1.Strokes.Add(stroke);
 
                 //pointsに始点と現在の点を格納
@@ -1388,9 +1408,21 @@ namespace epubReader4._0_Dino
         //色変更
         public void ChangeColor(int a, int r, int g, int b)
         {
+            inkCanvas1.EditingMode = InkCanvasEditingMode.None;
+
+            DrawingAttributes inkDA = new DrawingAttributes();
             color = System.Windows.Media.Color.FromArgb(Convert.ToByte(a), Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b));
             inkDA.Color = color;
-            inkCanvas1.DefaultDrawingAttributes = inkDA;
+            inkDA.Width = inkWidth;
+            inkDA.Height = inkWidth;
+            inkDAs.Add(inkDA);
+            inkCanvas1.DefaultDrawingAttributes = inkDAs.Last();
+        }
+
+        //消しゴム
+        public void EraserMode()
+        {
+            inkCanvas1.EditingMode = InkCanvasEditingMode.EraseByPoint;
         }
 
         //直線・自由線切り替え
@@ -1414,10 +1446,15 @@ namespace epubReader4._0_Dino
         //太さ変更
         public void ChangeWidth(int value)
         {
+            inkCanvas1.EditingMode = InkCanvasEditingMode.None;
+
+            DrawingAttributes inkDA = new DrawingAttributes();
             inkWidth = value;
             inkDA.Width = value;
             inkDA.Height = value;
-            inkCanvas1.DefaultDrawingAttributes = inkDA;
+            inkDA.Color = color;
+            inkDAs.Add(inkDA);
+            inkCanvas1.DefaultDrawingAttributes = inkDAs.Last();
         }
 
         //すべての線を再描画
@@ -1449,7 +1486,7 @@ namespace epubReader4._0_Dino
             }
 
             //線のスタイルを戻す
-            inkCanvas1.DefaultDrawingAttributes = inkDA;
+            inkCanvas1.DefaultDrawingAttributes = inkDAs.Last();
         }
 
         //ひとつ戻る

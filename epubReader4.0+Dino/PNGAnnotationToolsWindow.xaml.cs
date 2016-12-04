@@ -38,11 +38,6 @@ namespace epubReader4._0_Dino
             ((PNGWindow)this.Owner).ChangeColor(255, 0, 0, 0);
         }
 
-        private void WhiteButton_Click(object sender, RoutedEventArgs e)
-        {
-            ((PNGWindow)this.Owner).ChangeColor(255, 255, 255, 255);
-        }
-
         private void RedButton_Click(object sender, RoutedEventArgs e)
         {
             ((PNGWindow)this.Owner).ChangeColor(255, 255, 0, 0);
@@ -61,6 +56,12 @@ namespace epubReader4._0_Dino
         private void YellowButton_Click(object sender, RoutedEventArgs e)
         {
             ((PNGWindow)this.Owner).ChangeColor(255, 255, 255, 0);
+        }
+
+        //消しゴム
+        private void EreaserButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((PNGWindow)this.Owner).EraserMode();
         }
 
         //直線・自由線切り替え
@@ -121,6 +122,7 @@ namespace epubReader4._0_Dino
         {
             ((PNGWindow)this.Owner).inkCanvas1.EditingMode = InkCanvasEditingMode.None;
             ((PNGWindow)this.Owner).inkCanvas1.Visibility = System.Windows.Visibility.Hidden;
+            ((PNGWindow)this.Owner).AnnotationButton.Visibility = System.Windows.Visibility.Visible;
             this.Close();
         }
     }
