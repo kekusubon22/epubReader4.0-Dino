@@ -1350,7 +1350,7 @@ namespace epubReader4._0_Dino
 
                             elementSelected = true;
                             PopupButton.Visibility = System.Windows.Visibility.Visible;
-                            //SpacingButton.Visibility = System.Windows.Visibility.Visible;
+                            SpacingButton.Visibility = System.Windows.Visibility.Visible;
                             selectedElementNum = i;
                             break;
                         }
