@@ -659,6 +659,8 @@ namespace epubReader4._0_Dino
         //スペーシングボタン
         private void SpacingButton_Click(object sender, RoutedEventArgs e)
         {
+            //grid2.ShowGridLines = true;
+
             //スペーシングの処理
             if (!spacingNow)
             {
@@ -671,6 +673,10 @@ namespace epubReader4._0_Dino
                 {
                     Directory.CreateDirectory(thawPath + "\\SpacingImages");
                 }
+
+                //スクロールを縦方向に設定
+                scrollViewer1.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                scrollViewer1.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
 
                 //対象の要素を境に紙面を分割
                 FileStream fs = new FileStream(pageContent[currentPageNum], FileMode.Open, FileAccess.Read);
@@ -697,18 +703,20 @@ namespace epubReader4._0_Dino
 
                     //Grid位置の指定
                     Grid.SetColumn(upperSideImage, 0);
-                    rowDefinition1.Height = new GridLength(elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight(), GridUnitType.Pixel);
+                    rowDefinition1.Height = new GridLength(elementList[selectedElementNum].GetY() * resizeRate  + elementList[selectedElementNum].GetHeight() * resizeRate, GridUnitType.Pixel);
+                    upperSideImage.HorizontalAlignment = HorizontalAlignment.Right;
 
                     //対象の要素より下側の領域を指定
                     downerRect = new System.Drawing.Rectangle(
                         0,
                         elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight(),
                         picWidth / 2,
-                        picHeight - (elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight()));                    
+                        picHeight - (elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight() ));                    
 
                     //Grid位置の指定
                     Grid.SetColumn(downerSideImage, 0);
-                    rowDefinition3.Height = new GridLength( picHeight - (elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight()), GridUnitType.Pixel );
+                    rowDefinition3.Height = new GridLength(picHeight * resizeRate - (elementList[selectedElementNum].GetY() * resizeRate + elementList[selectedElementNum].GetHeight() * resizeRate), GridUnitType.Pixel );
+                    downerSideImage.HorizontalAlignment = HorizontalAlignment.Right;
 
                     //対象の要素と反対側の領域を指定
                     anotherRect = new System.Drawing.Rectangle(
@@ -716,6 +724,7 @@ namespace epubReader4._0_Dino
                         0,
                         picWidth / 2,
                         picHeight);
+                    anotherSideImage.Margin = new Thickness(0, 0, imageSpace, 200);
 
                     //Grid位置の指定
                     Grid.SetColumn(anotherSideImage, 1);
@@ -737,7 +746,8 @@ namespace epubReader4._0_Dino
 
                     //Grid位置の指定
                     Grid.SetColumn(upperSideImage, 1);
-                    rowDefinition1.Height = new GridLength(elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight(), GridUnitType.Pixel);
+                    rowDefinition1.Height = new GridLength(elementList[selectedElementNum].GetY() * resizeRate + elementList[selectedElementNum].GetHeight() * resizeRate, GridUnitType.Pixel);
+                    upperSideImage.HorizontalAlignment = HorizontalAlignment.Left;
 
                     //対象の要素より下側の領域を指定
                     downerRect = new System.Drawing.Rectangle(
@@ -748,7 +758,8 @@ namespace epubReader4._0_Dino
 
                     //Grid位置の指定
                     Grid.SetColumn(downerSideImage, 1);
-                    rowDefinition3.Height = new GridLength(picHeight - (elementList[selectedElementNum].GetY() + elementList[selectedElementNum].GetHeight()), GridUnitType.Pixel);
+                    rowDefinition3.Height = new GridLength(picHeight * resizeRate - (elementList[selectedElementNum].GetY() * resizeRate + elementList[selectedElementNum].GetHeight() * resizeRate), GridUnitType.Pixel);
+                    downerSideImage.HorizontalAlignment = HorizontalAlignment.Left;
 
                     //対象の要素と反対側の領域を指定
                     anotherRect = new System.Drawing.Rectangle(
@@ -756,6 +767,7 @@ namespace epubReader4._0_Dino
                         0,
                         picWidth / 2,
                         picHeight);
+                    anotherSideImage.Margin = new Thickness(imageSpace, 0, 0, 200);
 
                     //Grid位置の指定
                     Grid.SetColumn(anotherSideImage, 0);
@@ -844,7 +856,6 @@ namespace epubReader4._0_Dino
                 rect1.Visibility = System.Windows.Visibility.Hidden;
                 elementSelected = false;
                 PopupButton.Visibility = System.Windows.Visibility.Hidden;
-                //SpacingButton.Visibility = System.Windows.Visibility.Hidden;
                 selectedElementNum = -1;
 
                 spacingNow = true;
@@ -854,6 +865,10 @@ namespace epubReader4._0_Dino
             //スペーシングの解除    
             else
             {
+                //スクロールを水平方向に設定
+                scrollViewer1.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                scrollViewer1.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+
                 //
                 upperSideImage.Source = null;
                 downerSideImage.Source = null;
@@ -869,14 +884,20 @@ namespace epubReader4._0_Dino
                 rect1.Visibility = System.Windows.Visibility.Visible;
 
                 //行グリッドの高さを戻す
-                rowDefinition1.Height = new GridLength(picHeight / 3, GridUnitType.Pixel);
-                rowDefinition2.Height = new GridLength(picHeight / 3, GridUnitType.Pixel);
-                rowDefinition3.Height = new GridLength(picHeight / 3, GridUnitType.Pixel);
+                rowDefinition1.Height = new GridLength(picHeight * resizeRate / 3, GridUnitType.Pixel);
+                rowDefinition2.Height = new GridLength(picHeight * resizeRate / 3, GridUnitType.Pixel);
+                rowDefinition3.Height = new GridLength(picHeight * resizeRate / 3, GridUnitType.Pixel);
 
                 spacingNow = false;
                 position = "none";
                 SpacingButton.Visibility = System.Windows.Visibility.Hidden;
                 SpacingButton.Background = new ImageBrush(new BitmapImage(new Uri("..\\..\\..\\icon\\Spacing1.png", UriKind.Relative)));
+
+                //要素の選択を解除する
+                rect1.Visibility = System.Windows.Visibility.Hidden;
+                elementSelected = false;
+                PopupButton.Visibility = System.Windows.Visibility.Hidden;
+                selectedElementNum = -1;
             }
         }
 
@@ -1350,7 +1371,7 @@ namespace epubReader4._0_Dino
 
                             elementSelected = true;
                             PopupButton.Visibility = System.Windows.Visibility.Visible;
-                            //SpacingButton.Visibility = System.Windows.Visibility.Visible;
+                            SpacingButton.Visibility = System.Windows.Visibility.Visible;
                             selectedElementNum = i;
                             break;
                         }
