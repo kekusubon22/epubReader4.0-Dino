@@ -925,7 +925,7 @@ namespace epubReader4._0_Dino
                 return;
             }
 
-            ContaintsAddInWindow caw = new ContaintsAddInWindow();
+            ContentsAddInWindow caw = new ContentsAddInWindow();
             caw.Owner = this;
             caw.Top = 10;
             caw.Left = 75;

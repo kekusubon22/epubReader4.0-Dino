@@ -19,9 +19,9 @@ namespace epubReader4._0_Dino
     /// <summary>
     /// ContaintsAddInWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ContaintsAddInWindow : Window
+    public partial class ContentsAddInWindow : Window
     {
-        public ContaintsAddInWindow()
+        public ContentsAddInWindow()
         {
             InitializeComponent();
         }

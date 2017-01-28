@@ -489,6 +489,11 @@ namespace epubReader4._0_Dino
         {
             ReleaseElementSelected();
 
+            if(spacingNow)
+            {
+                SpacingButton.Visibility = Visibility.Visible;
+            }
+
             inkCanvas1.Visibility = System.Windows.Visibility.Visible;
             PNGAnnotationToolsWindow paw = new PNGAnnotationToolsWindow();
             paw.Owner = this;

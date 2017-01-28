@@ -165,8 +165,8 @@
     <Compile Include="CaptureWindow.xaml.cs">
       <DependentUpon>CaptureWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContaintsAddInWindow.xaml.cs">
-      <DependentUpon>ContaintsAddInWindow.xaml</DependentUpon>
+    <Compile Include="ContentsAddInWindow.xaml.cs">
+      <DependentUpon>ContentsAddInWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DinoMainWindow.xaml.cs">
       <DependentUpon>DinoMainWindow.xaml</DependentUpon>
@@ -250,7 +250,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContaintsAddInWindow.xaml">
+    <Page Include="ContentsAddInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
