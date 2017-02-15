@@ -196,7 +196,7 @@ namespace epubReader4._0_Dino
                     k++;
                 }
                 btn[i].Content = string.Format("{0}." + epubName[i], i + 1);
-                Grid.SetColumn(btn[i], j);
+                Grid.SetColumn(btn[i], j-1);
                 Grid.SetRow(btn[i], k);
                 grid1.Children.Add(btn[i]);
                 btn[i].VerticalAlignment = VerticalAlignment.Stretch;
