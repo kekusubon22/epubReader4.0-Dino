@@ -142,7 +142,7 @@ namespace epubReader4._0_Dino
             //    StylusPointCollection spc = new StylusPointCollection();
             //    spc.Add(new StylusPoint(prevP.X, prevP.Y));
             //    spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-            //    Stroke stroke = new Stroke(spc, inkDA);
+            //    Stroke stroke = new Stroke(spc, inkDAs.Last());
             //    inkCanvas1.Strokes.Add(stroke);
 
             //    prevP = e.GetPosition(el);
@@ -158,7 +158,7 @@ namespace epubReader4._0_Dino
             //    StylusPointCollection spc = new StylusPointCollection();
             //    spc.Add(new StylusPoint(startP.X, startP.Y));
             //    spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-            //    Stroke stroke = new Stroke(spc, inkDA);
+            //    Stroke stroke = new Stroke(spc, inkDAs.Last());
             //    inkCanvas1.Strokes.Add(stroke);
 
             //    counter++;
@@ -179,7 +179,7 @@ namespace epubReader4._0_Dino
             //    StylusPointCollection spc = new StylusPointCollection();
             //    spc.Add(new StylusPoint(prevP.X, prevP.Y));
             //    spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-            //    Stroke stroke = new Stroke(spc, inkDA);
+            //    Stroke stroke = new Stroke(spc, inkDAs.Last());
             //    inkCanvas1.Strokes.Add(stroke);
 
             //    //配列strokeLinesに追加
@@ -212,7 +212,7 @@ namespace epubReader4._0_Dino
             //    StylusPointCollection spc = new StylusPointCollection();
             //    spc.Add(new StylusPoint(startP.X, startP.Y));
             //    spc.Add(new StylusPoint(e.GetPosition(el).X, e.GetPosition(el).Y));
-            //    Stroke stroke = new Stroke(spc, inkDA);
+            //    Stroke stroke = new Stroke(spc, inkDAs.Last());
             //    inkCanvas1.Strokes.Add(stroke);
 
             //    //pointsに始点と現在の点を格納
