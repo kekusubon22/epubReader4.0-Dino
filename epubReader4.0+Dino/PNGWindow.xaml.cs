@@ -231,9 +231,9 @@ namespace epubReader4._0_Dino
             inkCanvas1.AllowDrop = true;
 
             //inkCanvas1にマウスイベントを設定
-            inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseDown), true);
-            inkCanvas1.AddHandler(InkCanvas.MouseMoveEvent, new MouseEventHandler(inkCanvas1_MouseMove), true);
-            inkCanvas1.AddHandler(InkCanvas.MouseUpEvent, new MouseButtonEventHandler(inkCanvas1_MouseUp), true);
+            //inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseDown), true);
+            //inkCanvas1.AddHandler(InkCanvas.MouseMoveEvent, new MouseEventHandler(inkCanvas1_MouseMove), true);
+            //inkCanvas1.AddHandler(InkCanvas.MouseUpEvent, new MouseButtonEventHandler(inkCanvas1_MouseUp), true);
             inkCanvas1.EditingMode = InkCanvasEditingMode.None;
 
             //image1にマウスイベントを設定

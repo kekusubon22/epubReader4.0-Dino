@@ -86,10 +86,10 @@ namespace epubReader4._0_Dino
             inkCanvas1.DefaultDrawingAttributes = inkDAs[0];
 
             //inkCanvas1にマウスイベントを設定
-            inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseDown), true);
-            inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseMove), true);
-            inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseUp), true);
-            inkCanvas1.EditingMode = InkCanvasEditingMode.None;
+            //inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseDown), true);
+            //inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseMove), true);
+            //inkCanvas1.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(inkCanvas1_MouseUp), true);
+            //inkCanvas1.EditingMode = InkCanvasEditingMode.None;
 
             //前に描画した情報があれば読み込む
             try
@@ -171,7 +171,7 @@ namespace epubReader4._0_Dino
             //UIElement el = sender as UIElement;
             //Console.WriteLine("まうすがはなれたよ");
 
-            //if (isFreeLine && dragging && counter > 3)
+            //if (isFreeLine && dragging)
             //{
             //    points.Add(e.GetPosition(el));
 
